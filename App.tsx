@@ -3,23 +3,15 @@ import React from "react";
 import { Provider } from "react-redux";
 import { StyleSheet, Text, View } from "react-native";
 import store from "./src/store";
+import { NavigationContainer } from "@react-navigation/native";
+import AuthNavigator from "./src/navigations/AuthNavigator";
 
 export default function App() {
   return (
     <Provider store={store}>
-      <View style={styles.container}>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <StatusBar style="auto" />
-      </View>
+      <NavigationContainer>
+        <AuthNavigator />
+      </NavigationContainer>
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
