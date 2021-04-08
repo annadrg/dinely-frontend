@@ -1,17 +1,32 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { Provider } from "react-redux";
+import React, { useEffect } from "react";
+import { Provider, useDispatch } from "react-redux";
 import { StyleSheet, Text, View } from "react-native";
 import store from "./src/store";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthNavigator from "./src/navigations/AuthNavigator";
+import { getUserWithStoredToken } from "./src/store/user/actions";
+import { Root } from "native-base";
 
-export default function App() {
+function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserWithStoredToken());
+  }, [dispatch]);
+
   return (
-    <Provider store={store}>
+    <Root>
       <NavigationContainer>
         <AuthNavigator />
       </NavigationContainer>
+    </Root>
+  );
+}
+
+export default function AppWrapper() {
+  return (
+    <Provider store={store}>
+      <App />
     </Provider>
   );
 }
