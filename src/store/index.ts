@@ -1,16 +1,10 @@
-import { combineReducers, createStore } from "redux";
-import userReducer from "./user/reducer";
+import { applyMiddleware, createStore } from "redux";
+import ReduxThunk from "redux-thunk";
+import logger from "redux-logger";
+import rootReducer from "./rootReducer";
 
-const rootReducer = combineReducers({
-  user: userReducer,
-});
-
-const enhancer = (window as any).__REDUX_DEVTOOLS_EXTENSION__
-  ? (window as any).__REDUX_DEVTOOLS_EXTENSION__()
-  : (x: any) => x;
+const enhancer = applyMiddleware(ReduxThunk, logger);
 
 const store = createStore(rootReducer, enhancer);
 
 export default store;
-
-export type ReduxState = ReturnType<typeof rootReducer>;
