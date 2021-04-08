@@ -1,10 +1,10 @@
-import { AppState, AppStateActionTypes } from "./types";
+import { AppState, AppStateActions } from "./types";
 
 const initialState: AppState = {
   loading: false,
 };
 
-export default (state = initialState, action: AppStateActionTypes) => {
+export default (state = initialState, action: AppStateActions) => {
   switch (action.type) {
     case "app/appLoading":
       return { loading: true };
