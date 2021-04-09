@@ -6,13 +6,15 @@ import {
   Item as FormItem,
   Label,
   Input,
+  Spinner,
 } from "native-base";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MyModal from "../components/MyModal";
-import { onChangeInput, toast } from "../functions";
-import { logOut } from "../store/user/actions";
+import { onChangeInput, showToast } from "../functions";
+import { selectAppLoading } from "../store/appState/selectors";
+import { changeUserDetails, logOut } from "../store/user/actions";
 import { selectUser } from "../store/user/selectors";
 
 export default function AccountScreen() {
@@ -20,6 +22,8 @@ export default function AccountScreen() {
 
   // Get user from state
   const user = useSelector(selectUser);
+
+  const isLoading = useSelector(selectAppLoading);
 
   // Create states for visibilty of modals
   const [detailsModalVisible, setDetailsModalVisible] = useState<boolean>(
@@ -36,15 +40,16 @@ export default function AccountScreen() {
   const [password, setPassword] = useState<string>("");
   const [passwordCheck, setPasswordCheck] = useState<string>("");
 
-  // TO DO Handle change of personal details
+  // Handle change of personal details
   const onDetailsChangeClick = () => {
-    console.log("Change details button clicked");
+    dispatch(changeUserDetails(user.id, firstName, lastName, email));
+    setDetailsModalVisible(false);
   };
 
   // TO DO Handle change of password
   const onPasswordChangeClick = () => {
     if (password !== passwordCheck) {
-      toast.showToast("Passwords do not match", 6000, "danger", "Okay");
+      showToast("Passwords do not match", 6000, "danger", "Okay");
     } else {
       console.log("Change password button clicked");
     }
@@ -100,6 +105,14 @@ export default function AccountScreen() {
       </Button>
     </Form>
   );
+
+  if (isLoading) {
+    return (
+      <Container style={styles.container}>
+        <Spinner color="black" />
+      </Container>
+    );
+  }
 
   return (
     <Container style={styles.container}>
