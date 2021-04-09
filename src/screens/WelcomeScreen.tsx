@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Button } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { AuthStackParamsList } from "../types";
+import { AuthStackParamsList } from "../navigations/types";
 
 type Props = {
   navigation: StackNavigationProp<AuthStackParamsList, "Welcome">;
