@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
-import { Provider, useDispatch } from "react-redux";
-import { StyleSheet, Text, View } from "react-native";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import store from "./src/store";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthNavigator from "./src/navigations/AuthNavigator";
 import { getUserWithStoredToken } from "./src/store/user/actions";
 import { Root } from "native-base";
+import TabNavigator from "./src/navigations/TabNavigator";
+import { selectToken } from "./src/store/user/selectors";
 
 function App() {
   const dispatch = useDispatch();
+
+  // Get token from state
+  const token = useSelector(selectToken);
 
   useEffect(() => {
     dispatch(getUserWithStoredToken());
@@ -17,7 +21,7 @@ function App() {
   return (
     <Root>
       <NavigationContainer>
-        <AuthNavigator />
+        {token ? <TabNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </Root>
   );

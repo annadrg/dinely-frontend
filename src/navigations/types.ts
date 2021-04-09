@@ -3,3 +3,10 @@ export type AuthStackParamsList = {
   LogIn: undefined;
   SignUp: undefined;
 };
+
+export type TabParamsList = {
+  Reviews: undefined;
+  Wishlist: undefined;
+  Add: undefined;
+  Account: undefined;
+};
