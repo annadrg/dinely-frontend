@@ -19,7 +19,7 @@ const tokenStillValid = (user: User) => ({
   payload: user,
 });
 
-export const logOutSuccess = () => ({ type: "user/LogOut" });
+export const logOutSuccess = () => ({ type: "user/logOutSuccess" });
 
 export const signUp = (
   firstName: string,
@@ -37,7 +37,7 @@ export const signUp = (
         lastName,
       });
 
-      toast.showToast("Succesfully signed up", 5000, "success", undefined);
+      toast.showToast("Succesfully signed up", 3000, "success", undefined);
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
@@ -64,7 +64,7 @@ export const logIn = (email: string, password: string): AppThunk => {
       try {
         await AsyncStorage.setItem("token", response.data.token);
         dispatch(logInSuccess(response.data));
-        toast.showToast("Welcome back!", 5000, "success", undefined);
+        toast.showToast("Welcome back!", 3000, "success", undefined);
         dispatch(appDoneLoading());
       } catch (error) {
         toast.showToast(error.message, 6000, "danger", "Okay");
