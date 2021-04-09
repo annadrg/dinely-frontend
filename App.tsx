@@ -1,21 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from "react";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import store from "./src/store";
+import { NavigationContainer } from "@react-navigation/native";
+import AuthNavigator from "./src/navigations/AuthNavigator";
+import { getUserWithStoredToken } from "./src/store/user/actions";
+import { Root } from "native-base";
+import TabNavigator from "./src/navigations/TabNavigator";
+import { selectToken } from "./src/store/user/selectors";
 
-export default function App() {
+function App() {
+  const dispatch = useDispatch();
+
+  // Get token from state
+  const token = useSelector(selectToken);
+
+  useEffect(() => {
+    dispatch(getUserWithStoredToken());
+  }, [dispatch]);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Root>
+      <NavigationContainer>
+        {token ? <TabNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </Root>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function AppWrapper() {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+}
