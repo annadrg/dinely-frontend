@@ -5,7 +5,7 @@ import { ReduxState, AppThunk } from "../types";
 import { User } from "./types";
 import { appLoading, appDoneLoading } from "../appState/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { toast } from "../../components/toast";
+import { toast } from "../../functions";
 
 export const logInSuccess = (user: User) => {
   return {

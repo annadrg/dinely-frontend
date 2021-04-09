@@ -11,7 +11,7 @@ import {
 import { Keyboard } from "react-native";
 import { useDispatch } from "react-redux";
 import { signUp } from "../store/user/actions";
-import { toast } from "../components/toast";
+import { toast } from "../functions";
 import { onChangeInput } from "../functions";
 
 export default function SignUpScreen() {
