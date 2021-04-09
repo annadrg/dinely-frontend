@@ -44,9 +44,8 @@ export const signUp = (
         firstName,
         lastName,
       });
-
-      showToast("Succesfully signed up", 2000, "success", undefined);
       dispatch(appDoneLoading());
+      showToast("Succesfully signed up", 2000, "success", undefined);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -160,8 +159,40 @@ export const changeUserDetails = (
       );
 
       dispatch(updateUserDetails(response.data));
-      showToast("Details succesfully changed", 2000, "success", undefined);
       dispatch(appDoneLoading());
+      showToast("Details succesfully changed", 2000, "success", undefined);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        showToast(error.response.data.message, 6000, "danger", "Okay");
+      } else {
+        console.log(error.message);
+        showToast(error.message, 6000, "danger", "Okay");
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const changePassword = (
+  id: number | null,
+  password: string
+): AppThunk => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    try {
+      const token = selectToken(getState());
+      await axios.patch(
+        `${apiUrl}/users/${id}`,
+        {
+          password,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(appDoneLoading());
+      showToast("Password succesfully changed", 2000, "success", undefined);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);

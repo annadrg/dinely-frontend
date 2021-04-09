@@ -9,12 +9,16 @@ import {
   Spinner,
 } from "native-base";
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { Keyboard, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MyModal from "../components/MyModal";
 import { onChangeInput, showToast } from "../functions";
 import { selectAppLoading } from "../store/appState/selectors";
-import { changeUserDetails, logOut } from "../store/user/actions";
+import {
+  changePassword,
+  changeUserDetails,
+  logOut,
+} from "../store/user/actions";
 import { selectUser } from "../store/user/selectors";
 
 export default function AccountScreen() {
@@ -46,13 +50,19 @@ export default function AccountScreen() {
     setDetailsModalVisible(false);
   };
 
-  // TO DO Handle change of password
+  // Handle change of password
   const onPasswordChangeClick = () => {
-    if (password !== passwordCheck) {
+    Keyboard.dismiss();
+    if (!password || !passwordCheck) {
+      showToast("Please fill in both fields", 6000, "danger", "Okay");
+    } else if (password !== passwordCheck) {
       showToast("Passwords do not match", 6000, "danger", "Okay");
     } else {
-      console.log("Change password button clicked");
+      dispatch(changePassword(user.id, password));
+      setPasswordModalVisible(false);
     }
+    setPassword("");
+    setPasswordCheck("");
   };
 
   // Handle log out
@@ -166,8 +176,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   subtitle: { fontWeight: "200", fontSize: 16, textAlign: "center" },
-  topButton: { marginHorizontal: 10, marginTop: 50 },
-  button: { marginHorizontal: 10, marginTop: 5 },
+  topButton: { marginHorizontal: 10, marginTop: 50, borderRadius: 10 },
+  button: { marginHorizontal: 10, marginTop: 5, borderRadius: 10 },
   modalButton: {
     paddingBottom: 4,
     alignSelf: "center",
