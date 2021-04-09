@@ -11,7 +11,7 @@ import {
 import { Keyboard } from "react-native";
 import { useDispatch } from "react-redux";
 import { signUp } from "../store/user/actions";
-import { toast } from "../functions";
+import { showToast } from "../functions";
 import { onChangeInput } from "../functions";
 
 export default function SignUpScreen() {
@@ -24,7 +24,7 @@ export default function SignUpScreen() {
 
   const onSubmitClick = () => {
     if (password !== passwordCheck) {
-      toast.showToast("Passwords do not match", 6000, "danger", "Okay");
+      showToast("Passwords do not match", 6000, "danger", "Okay");
     } else {
       dispatch(signUp(firstName, lastName, email, password));
       Keyboard.dismiss();

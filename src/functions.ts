@@ -10,20 +10,18 @@ export const onChangeInput = (setInput: Function) => (
 };
 
 // Toast message
-export const toast = {
-  showToast: (
-    message: string,
-    duration: number,
-    type: "danger" | "success",
-    buttonText: "Okay" | undefined
-  ) => {
-    Toast.show({
-      text: message,
-      duration,
-      position: "bottom",
-      textStyle: { textAlign: "center" },
-      buttonText,
-      type,
-    });
-  },
+export const showToast = (
+  message: string,
+  duration: number,
+  type: "danger" | "success",
+  buttonText: "Okay" | undefined
+) => {
+  Toast.show({
+    text: message,
+    duration,
+    position: "bottom",
+    textStyle: { textAlign: "center" },
+    buttonText,
+    type,
+  });
 };
