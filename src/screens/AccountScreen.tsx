@@ -76,6 +76,7 @@ export default function AccountScreen({ navigation }: Props) {
     dispatch(logOut());
   };
 
+  // Content of change personal details modal
   const detailsModalContent = (
     <Form style={styles.form}>
       <FormItem floatingLabel>
@@ -97,6 +98,7 @@ export default function AccountScreen({ navigation }: Props) {
     </Form>
   );
 
+  // Content of change password modal
   const passwordModalContent = (
     <Form style={styles.form}>
       <FormItem floatingLabel>
@@ -122,6 +124,7 @@ export default function AccountScreen({ navigation }: Props) {
     </Form>
   );
 
+  // Return spinner when loading
   if (isLoading) {
     return (
       <Container style={styles.container}>
