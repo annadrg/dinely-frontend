@@ -4,9 +4,13 @@ export type RestaurantState = {
 };
 
 // Action types
-export type RestaurantActions = { type: string; payload: any }; // To change
+export type RestaurantActions =
+  | { type: "restaurant/restaurantsFetched"; payload: Restaurant[] }
+  | { type: "restaurant/addOne"; payload: Restaurant }
+  | { type: "restaurant/updateOne"; payload: Restaurant }
+  | { type: "restaurant/deleteOne"; payload: number };
 
-// Tag type
+// Restaurant type
 export type Restaurant = {
   id: number;
   name: string;
@@ -20,4 +24,20 @@ export type Restaurant = {
   additionalInfo: string | null;
   isReviewed: boolean;
   updatedAt: Date;
+  tags: number[];
+};
+
+// New restaurant type
+export type NewRestaurant = {
+  name: string;
+  location: string;
+  rating?: number;
+  dateVisited?: Date;
+  priceCategory?: number;
+  image1?: string;
+  image2?: string;
+  image3?: string;
+  additionalInfo?: string;
+  isReviewed: boolean;
+  tags: number[];
 };
