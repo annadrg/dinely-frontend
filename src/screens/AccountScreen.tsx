@@ -1,3 +1,4 @@
+import { StackNavigationProp } from "@react-navigation/stack";
 import {
   Button,
   Container,
@@ -13,6 +14,7 @@ import { Keyboard, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MyModal from "../components/MyModal";
 import { onChangeInput, showToast } from "../functions";
+import { AccountStackParamsList } from "../navigations/types";
 import { selectAppLoading } from "../store/appState/selectors";
 import {
   changePassword,
@@ -21,7 +23,11 @@ import {
 } from "../store/user/actions";
 import { selectUser } from "../store/user/selectors";
 
-export default function AccountScreen() {
+type Props = {
+  navigation: StackNavigationProp<AccountStackParamsList, "Account">;
+};
+
+export default function AccountScreen({ navigation }: Props) {
   const dispatch = useDispatch();
 
   // Get user from state
@@ -143,7 +149,11 @@ export default function AccountScreen() {
         content={passwordModalContent}
       />
 
-      <Button full style={styles.topButton}>
+      <Button
+        full
+        style={styles.topButton}
+        onPress={() => navigation.navigate("Tags")}
+      >
         <Text>Manage tags</Text>
       </Button>
       <Button
