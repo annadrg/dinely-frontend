@@ -8,32 +8,15 @@ import {
   Input,
   Label,
 } from "native-base";
-import {
-  Keyboard,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from "react-native";
+import { Keyboard } from "react-native";
 import { useDispatch } from "react-redux";
 import { logIn } from "../store/user/actions";
+import { onChangeInput } from "../functions";
 
 export default function LogInScreen() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  const onChangeEmail = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setEmail(value);
-  };
-
-  const onChangePassword = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setPassword(value);
-  };
 
   const onSubmitClick = () => {
     dispatch(logIn(email, password));
@@ -47,14 +30,14 @@ export default function LogInScreen() {
       <Form>
         <FormItem floatingLabel>
           <Label>Email</Label>
-          <Input value={email} onChange={onChangeEmail} />
+          <Input value={email} onChange={onChangeInput(setEmail)} />
         </FormItem>
         <FormItem floatingLabel>
           <Label>Password</Label>
           <Input
             secureTextEntry={true}
             value={password}
-            onChange={onChangePassword}
+            onChange={onChangeInput(setPassword)}
           />
         </FormItem>
 

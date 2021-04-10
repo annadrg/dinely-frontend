@@ -8,14 +8,11 @@ import {
   Input,
   Label,
 } from "native-base";
-import {
-  Keyboard,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from "react-native";
+import { Keyboard } from "react-native";
 import { useDispatch } from "react-redux";
-import { logIn, signUp } from "../store/user/actions";
-import { toast } from "../components/toast";
+import { signUp } from "../store/user/actions";
+import { showToast } from "../functions";
+import { onChangeInput } from "../functions";
 
 export default function SignUpScreen() {
   const dispatch = useDispatch();
@@ -25,44 +22,9 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState<string>("");
   const [passwordCheck, setPasswordCheck] = useState<string>("");
 
-  const onChangeFirstName = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setFirstName(value);
-  };
-
-  const onChangeLastName = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setLastName(value);
-  };
-
-  const onChangeEmail = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setEmail(value);
-  };
-
-  const onChangePassword = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setPassword(value);
-  };
-
-  const onChangePasswordCheck = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setPasswordCheck(value);
-  };
-
   const onSubmitClick = () => {
     if (password !== passwordCheck) {
-      toast.showToast("Passwords do not match", 6000, "danger", "Okay");
+      showToast("Passwords do not match", 6000, "danger", "Okay");
     } else {
       dispatch(signUp(firstName, lastName, email, password));
       Keyboard.dismiss();
@@ -79,22 +41,22 @@ export default function SignUpScreen() {
       <Form>
         <FormItem floatingLabel>
           <Label>First name</Label>
-          <Input value={firstName} onChange={onChangeFirstName} />
+          <Input value={firstName} onChange={onChangeInput(setFirstName)} />
         </FormItem>
         <FormItem floatingLabel>
           <Label>Last name</Label>
-          <Input value={lastName} onChange={onChangeLastName} />
+          <Input value={lastName} onChange={onChangeInput(setLastName)} />
         </FormItem>
         <FormItem floatingLabel>
           <Label>Email</Label>
-          <Input value={email} onChange={onChangeEmail} />
+          <Input value={email} onChange={onChangeInput(setEmail)} />
         </FormItem>
         <FormItem floatingLabel>
           <Label>Password</Label>
           <Input
             secureTextEntry={true}
             value={password}
-            onChange={onChangePassword}
+            onChange={onChangeInput(setPassword)}
           />
         </FormItem>
         <FormItem floatingLabel>
@@ -102,7 +64,7 @@ export default function SignUpScreen() {
           <Input
             secureTextEntry={true}
             value={passwordCheck}
-            onChange={onChangePasswordCheck}
+            onChange={onChangeInput(setPasswordCheck)}
           />
         </FormItem>
 

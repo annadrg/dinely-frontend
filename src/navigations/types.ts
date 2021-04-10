@@ -10,3 +10,8 @@ export type TabParamsList = {
   Add: undefined;
   Account: undefined;
 };
+
+export type AccountStackParamsList = {
+  Account: undefined;
+  Tags: undefined;
+};

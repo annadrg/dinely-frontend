@@ -19,6 +19,9 @@ export default function reducer(state = initialState, action: UserActions) {
     case "user/tokenStillValid":
       return { ...action.payload };
 
+    case "user/updateUserDetails":
+      return { ...state, ...action.payload };
+
     default:
       return state;
   }
