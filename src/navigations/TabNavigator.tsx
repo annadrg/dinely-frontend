@@ -4,8 +4,8 @@ import { TabParamsList } from "./types";
 import { FontAwesome } from "@expo/vector-icons";
 import ReviewsScreen from "../screens/ReviewsScreen";
 import WishlistScreen from "../screens/WishlistScreen";
-import AddScreen from "../screens/AddScreen";
 import AccountNavigator from "./AccountNavigator";
+import AddNavigator from "./AddNavigator";
 
 const Tab = createBottomTabNavigator<TabParamsList>();
 
@@ -45,7 +45,7 @@ const TabNavigator = () => (
     />
     <Tab.Screen
       name="Add"
-      component={AddScreen}
+      component={AddNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
           <FontAwesome
