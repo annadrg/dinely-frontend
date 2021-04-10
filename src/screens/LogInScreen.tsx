@@ -7,17 +7,25 @@ import {
   Item as FormItem,
   Input,
   Label,
+  Spinner,
 } from "native-base";
-import { Keyboard } from "react-native";
-import { useDispatch } from "react-redux";
+import { Keyboard, StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../store/user/actions";
 import { onChangeInput } from "../functions";
+import { selectAppLoading } from "../store/appState/selectors";
 
 export default function LogInScreen() {
   const dispatch = useDispatch();
+
+  // Get loading from state
+  const isLoading = useSelector(selectAppLoading);
+
+  // Create states for input fields
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  // Handle login submit
   const onSubmitClick = () => {
     dispatch(logIn(email, password));
     Keyboard.dismiss();
@@ -25,12 +33,26 @@ export default function LogInScreen() {
     setPassword("");
   };
 
+  // Return spinner when loading
+  if (isLoading) {
+    return (
+      <Container style={styles.containerSpinner}>
+        <Spinner color="black" />
+      </Container>
+    );
+  }
+
   return (
-    <Container style={{ padding: 10, paddingRight: 20 }}>
+    <Container style={styles.container}>
       <Form>
         <FormItem floatingLabel>
           <Label>Email</Label>
-          <Input value={email} onChange={onChangeInput(setEmail)} />
+          <Input
+            keyboardType="email-address"
+            autoCapitalize="none"
+            value={email}
+            onChange={onChangeInput(setEmail)}
+          />
         </FormItem>
         <FormItem floatingLabel>
           <Label>Password</Label>
@@ -41,14 +63,16 @@ export default function LogInScreen() {
           />
         </FormItem>
 
-        <Button
-          primary
-          onPress={onSubmitClick}
-          style={{ paddingBottom: 4, alignSelf: "center", marginVertical: 20 }}
-        >
+        <Button primary onPress={onSubmitClick} style={styles.button}>
           <Text> Login </Text>
         </Button>
       </Form>
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { padding: 10, paddingRight: 20 },
+  containerSpinner: { alignItems: "center", justifyContent: "center", flex: 1 },
+  button: { paddingBottom: 4, alignSelf: "center", marginVertical: 20 },
+});

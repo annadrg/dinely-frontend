@@ -7,23 +7,33 @@ import {
   Item as FormItem,
   Input,
   Label,
+  Spinner,
 } from "native-base";
-import { Keyboard } from "react-native";
-import { useDispatch } from "react-redux";
+import { Keyboard, StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../store/user/actions";
 import { showToast } from "../functions";
 import { onChangeInput } from "../functions";
+import { selectAppLoading } from "../store/appState/selectors";
 
 export default function SignUpScreen() {
   const dispatch = useDispatch();
+
+  // Get loading from state
+  const isLoading = useSelector(selectAppLoading);
+
+  // Create states for input fields
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordCheck, setPasswordCheck] = useState<string>("");
 
+  // Handle sign up submit
   const onSubmitClick = () => {
-    if (password !== passwordCheck) {
+    if (!firstName || !lastName || !email || !password || !passwordCheck) {
+      showToast("Please fill in all fields", 6000, "danger", "Okay");
+    } else if (password !== passwordCheck) {
       showToast("Passwords do not match", 6000, "danger", "Okay");
     } else {
       dispatch(signUp(firstName, lastName, email, password));
@@ -36,8 +46,17 @@ export default function SignUpScreen() {
     }
   };
 
+  // Return spinner when loading
+  if (isLoading) {
+    return (
+      <Container style={styles.containerSpinner}>
+        <Spinner color="black" />
+      </Container>
+    );
+  }
+
   return (
-    <Container style={{ padding: 10, paddingRight: 20 }}>
+    <Container style={styles.container}>
       <Form>
         <FormItem floatingLabel>
           <Label>First name</Label>
@@ -49,7 +68,12 @@ export default function SignUpScreen() {
         </FormItem>
         <FormItem floatingLabel>
           <Label>Email</Label>
-          <Input value={email} onChange={onChangeInput(setEmail)} />
+          <Input
+            keyboardType="email-address"
+            autoCapitalize="none"
+            value={email}
+            onChange={onChangeInput(setEmail)}
+          />
         </FormItem>
         <FormItem floatingLabel>
           <Label>Password</Label>
@@ -68,14 +92,16 @@ export default function SignUpScreen() {
           />
         </FormItem>
 
-        <Button
-          primary
-          onPress={onSubmitClick}
-          style={{ paddingBottom: 4, alignSelf: "center", marginVertical: 20 }}
-        >
+        <Button primary onPress={onSubmitClick} style={styles.button}>
           <Text> Sign up </Text>
         </Button>
       </Form>
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { padding: 10, paddingRight: 20 },
+  containerSpinner: { alignItems: "center", justifyContent: "center", flex: 1 },
+  button: { paddingBottom: 4, alignSelf: "center", marginVertical: 20 },
+});
