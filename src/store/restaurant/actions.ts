@@ -4,6 +4,7 @@ import { AppThunk } from "../types";
 import { appLoading, appDoneLoading } from "../appState/actions";
 import { Restaurant, NewRestaurant } from "./types";
 import { selectToken } from "../user/selectors";
+import { showToast } from "../../functions";
 
 export const restaurantsFetched = (restaurants: Restaurant[]) => {
   return {
@@ -57,6 +58,7 @@ export const addRestaurant = (restaurant: NewRestaurant): AppThunk => async (
     dispatch(appDoneLoading());
     const newRestaurant = response.data;
     dispatch(addOneRestaurant(newRestaurant));
+    showToast("Restaurant succesfully added", 2000, "success", undefined);
   } catch (error) {
     if (error.response) {
       console.log(error.response.message);
