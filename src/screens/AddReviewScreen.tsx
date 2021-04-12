@@ -47,8 +47,6 @@ export default function AddWishlistScreen() {
   // Get loading from state
   const isLoading = useSelector(selectAppLoading);
 
-  // Create state for visibility modal
-
   // Today
   const today = new Date();
 
