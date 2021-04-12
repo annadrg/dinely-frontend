@@ -34,9 +34,9 @@ export type NewRestaurant = {
   rating?: number;
   dateVisited?: Date;
   priceCategory?: number;
-  image1?: string;
-  image2?: string;
-  image3?: string;
+  image1?: string | null;
+  image2?: string | null;
+  image3?: string | null;
   additionalInfo?: string;
   isReviewed: boolean;
   tags: number[];
