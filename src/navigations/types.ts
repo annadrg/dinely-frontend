@@ -15,3 +15,9 @@ export type AccountStackParamsList = {
   Account: undefined;
   Tags: undefined;
 };
+
+export type AddStackParamsList = {
+  Add: undefined;
+  AddReview: undefined;
+  AddWishlist: undefined;
+};

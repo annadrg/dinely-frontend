@@ -13,6 +13,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import AddTagModal from "../components/AddTagModal";
 import MyModal from "../components/MyModal";
 import { onChangeInput, showToast } from "../functions";
 import { selectAppLoading } from "../store/appState/selectors";
@@ -46,19 +47,7 @@ export default function TagScreen() {
   });
 
   // Create states for input fields
-  const [newTagName, setNewTagName] = useState<string>("");
   const [updatedTagName, setUpdatedTagName] = useState<string>("");
-
-  // Handle add new tag
-  const onAddTagClick = () => {
-    if (!newTagName) {
-      showToast("Please fill in all fields", 6000, "danger", "Okay");
-    } else {
-      dispatch(addTag({ name: newTagName }));
-      setNewTagName("");
-      setAddModalVisible(false);
-    }
-  };
 
   // Handle edit tag
   const onEditTagClick = () => {
@@ -87,20 +76,6 @@ export default function TagScreen() {
       },
     ]);
   };
-
-  // Content of add tag modal
-  const addModalContent = (
-    <Form style={styles.form}>
-      <FormItem floatingLabel>
-        <Label>Tag name</Label>
-        <Input value={newTagName} onChange={onChangeInput(setNewTagName)} />
-      </FormItem>
-
-      <Button onPress={onAddTagClick} style={styles.modalButton}>
-        <Text>Add tag</Text>
-      </Button>
-    </Form>
-  );
 
   // Content of edit tag modal
   const editModalContent = (
@@ -134,12 +109,8 @@ export default function TagScreen() {
   return (
     <Container>
       <Text style={styles.title}>My tags</Text>
-      <MyModal
-        visible={addModalVisible}
-        setVisible={setAddModalVisible}
-        title="Add tag"
-        content={addModalContent}
-      />
+
+      <AddTagModal visible={addModalVisible} setVisible={setAddModalVisible} />
 
       <MyModal
         visible={editModalVisible}
