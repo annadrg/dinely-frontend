@@ -5,7 +5,7 @@ import { Modal, StyleSheet } from "react-native";
 type Props = {
   visible: boolean;
   setVisible: Function;
-  title: string;
+  title?: string;
   content: React.ReactNode;
 };
 
