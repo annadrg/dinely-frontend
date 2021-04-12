@@ -10,9 +10,8 @@ import {
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import MultiSelect from "react-native-multiple-select";
 import { useDispatch, useSelector } from "react-redux";
-import AddTagModal from "../components/AddTagModal";
+import SelectTags from "../components/SelectTags";
 import { onChangeInput, showToast } from "../functions";
 import { selectAppLoading } from "../store/appState/selectors";
 import { addRestaurant } from "../store/restaurant/actions";
@@ -73,7 +72,7 @@ export default function AddWishlistScreen() {
       </Container>
     );
   }
-  console.log(tags);
+
   return (
     <Container style={styles.container}>
       <Form>
@@ -86,32 +85,10 @@ export default function AddWishlistScreen() {
           <Input value={location} onChange={onChangeInput(setLocation)} />
         </FormItem>
         <Text style={styles.multiSelectLabel}>Tags</Text>
-        <MultiSelect
-          items={userTagsWithString}
-          uniqueKey="id"
-          selectedItems={tags}
-          onSelectedItemsChange={setTags}
-          styleMainWrapper={styles.multiSelect}
-          searchInputStyle={styles.multiSelectSearch}
-          tagBorderColor="#727272"
-          tagRemoveIconColor="#727272"
-          tagTextColor="#727272"
-          submitButtonText="Select"
-          styleItemsContainer={styles.multiSelectItemContainer}
-          styleRowList={styles.multiSelectItem}
-        />
-
-        <Button
-          small
-          style={styles.tagButton}
-          onPress={() => setAddModalVisible(true)}
-        >
-          <Text>Add tag</Text>
-        </Button>
-
-        <AddTagModal
-          visible={addModalVisible}
-          setVisible={setAddModalVisible}
+        <SelectTags
+          allTags={userTagsWithString}
+          selectedTags={tags}
+          setSelectedTags={setTags}
         />
 
         <Button primary onPress={onSubmitClick} style={styles.button}>
