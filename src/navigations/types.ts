@@ -21,3 +21,8 @@ export type AddStackParamsList = {
   AddReview: undefined;
   AddWishlist: undefined;
 };
+
+export type WishlistStackParamsList = {
+  Wishlist: undefined;
+  WishlistDetails: { restaurantId: number };
+};

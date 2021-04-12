@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TabParamsList } from "./types";
 import { FontAwesome } from "@expo/vector-icons";
 import ReviewsScreen from "../screens/ReviewsScreen";
-import WishlistScreen from "../screens/WishlistScreen";
 import AccountNavigator from "./AccountNavigator";
 import AddNavigator from "./AddNavigator";
+import WishlistNavigator from "./WishlistNavigator";
 
 const Tab = createBottomTabNavigator<TabParamsList>();
 
@@ -32,7 +32,7 @@ const TabNavigator = () => (
     />
     <Tab.Screen
       name="Wishlist"
-      component={WishlistScreen}
+      component={WishlistNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
           <FontAwesome

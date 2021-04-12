@@ -1,7 +1,15 @@
+import { RouteProp } from "@react-navigation/core";
+import { StackNavigationProp } from "@react-navigation/stack";
 import React from "react";
-import { Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
+import { WishlistStackParamsList } from "../navigations/types";
 
-export default function WishlistScreen() {
+type Props = {
+  navigation: StackNavigationProp<WishlistStackParamsList, "Wishlist">;
+  route: RouteProp<WishlistStackParamsList, "Wishlist">;
+};
+
+export default function WishlistScreen({ navigation, route }: Props) {
   return (
     <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
       <Text
@@ -11,7 +19,12 @@ export default function WishlistScreen() {
           textAlign: "center",
         }}
       >
-        Wishlist
+        <Button
+          title="Go to wishlist details"
+          onPress={() =>
+            navigation.navigate("WishlistDetails", { restaurantId: 1 })
+          }
+        />
       </Text>
     </View>
   );
