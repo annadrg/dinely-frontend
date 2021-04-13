@@ -2,10 +2,10 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TabParamsList } from "./types";
 import { FontAwesome } from "@expo/vector-icons";
-import ReviewsScreen from "../screens/ReviewsScreen";
 import AccountNavigator from "./AccountNavigator";
 import AddNavigator from "./AddNavigator";
 import WishlistNavigator from "./WishlistNavigator";
+import ReviewsNavigator from "./ReviewsNavigator";
 
 const Tab = createBottomTabNavigator<TabParamsList>();
 
@@ -19,7 +19,7 @@ const TabNavigator = () => (
   >
     <Tab.Screen
       name="ReviewsTab"
-      component={ReviewsScreen}
+      component={ReviewsNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
           <FontAwesome
