@@ -22,17 +22,25 @@ export const selectSpecificRestaurant = (restaurantId: number) => (
 
 export const selectFilteredWishlist = (
   filterLocations: string[],
-  filterTags: number[]
+  filterTags: number[],
+  search: string
 ) => (reduxState: ReduxState) => {
   const restaurants = reduxState.restaurant.userRestaurants;
   const wishlist = restaurants.filter((restaurant) => !restaurant.isReviewed);
 
-  const filteredOnLocation =
-    filterLocations.length > 0
+  const filteredOnSearch =
+    search.length > 0
       ? wishlist.filter((restaurant) =>
-          filterLocations.includes(restaurant.location)
+          restaurant.name.toLowerCase().includes(search.toLowerCase())
         )
       : [...wishlist];
+
+  const filteredOnLocation =
+    filterLocations.length > 0
+      ? filteredOnSearch.filter((restaurant) =>
+          filterLocations.includes(restaurant.location)
+        )
+      : [...filteredOnSearch];
 
   const filteredOnTags =
     filterTags.length > 0
