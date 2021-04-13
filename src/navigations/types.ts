@@ -1,3 +1,5 @@
+import { NavigatorScreenParams } from "@react-navigation/core";
+
 export type AuthStackParamsList = {
   Welcome: undefined;
   LogIn: undefined;
@@ -5,10 +7,10 @@ export type AuthStackParamsList = {
 };
 
 export type TabParamsList = {
-  Reviews: undefined;
-  Wishlist: undefined;
-  Add: undefined;
-  Account: undefined;
+  ReviewsTab: undefined;
+  WishlistTab: NavigatorScreenParams<WishlistStackParamsList>;
+  AddTab: NavigatorScreenParams<AddStackParamsList>;
+  AccountTab: undefined;
 };
 
 export type AccountStackParamsList = {
@@ -18,6 +20,18 @@ export type AccountStackParamsList = {
 
 export type AddStackParamsList = {
   Add: undefined;
-  AddReview: undefined;
+  AddReview:
+    | {
+        id: number | undefined;
+        name: string | undefined;
+        location: string | undefined;
+        tags: string[] | undefined;
+      }
+    | undefined;
   AddWishlist: undefined;
+};
+
+export type WishlistStackParamsList = {
+  Wishlist: undefined;
+  WishlistDetails: { restaurantId: number };
 };

@@ -92,6 +92,7 @@ export const updateRestaurant = (
     );
     const updatedRestaurant = response.data;
     dispatch(updateOneRestaurant(updatedRestaurant));
+    showToast("Restaurant succesfully updated", 2000, "success", undefined);
     dispatch(appDoneLoading());
   } catch (error) {
     if (error.response) {

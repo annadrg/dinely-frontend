@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Text } from "native-base";
 import AddTagModal from "./AddTagModal";
-import MultiSelect from "react-native-multiple-select";
+import SelectMultiple from "./SelectMultiple";
 
 type Tag = {
   id: string;
@@ -24,19 +24,10 @@ export default function SelectTags({
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false);
   return (
     <>
-      <MultiSelect
+      <SelectMultiple
         items={allTags}
-        uniqueKey="id"
         selectedItems={selectedTags}
-        onSelectedItemsChange={setSelectedTags}
-        styleMainWrapper={styles.multiSelect}
-        searchInputStyle={styles.multiSelectSearch}
-        tagBorderColor="#727272"
-        tagRemoveIconColor="#727272"
-        tagTextColor="#727272"
-        submitButtonText="Select"
-        styleItemsContainer={styles.multiSelectItemContainer}
-        styleRowList={styles.multiSelectItem}
+        setSelectedItems={setSelectedTags}
       />
 
       <Button
@@ -53,9 +44,5 @@ export default function SelectTags({
 }
 
 const styles = StyleSheet.create({
-  multiSelect: { marginLeft: 15 },
-  multiSelectSearch: { height: 50 },
-  multiSelectItemContainer: { height: 120 },
-  multiSelectItem: { padding: 6 },
   tagButton: { marginLeft: 15, backgroundColor: "#727272", marginTop: 10 },
 });

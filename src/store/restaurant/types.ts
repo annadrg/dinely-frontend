@@ -1,3 +1,5 @@
+import { Tag } from "../tag/types";
+
 // State type
 export type RestaurantState = {
   userRestaurants: Restaurant[];
@@ -24,7 +26,7 @@ export type Restaurant = {
   additionalInfo: string | null;
   isReviewed: boolean;
   updatedAt: Date;
-  tags: number[];
+  tags: Tag[];
 };
 
 // New restaurant type

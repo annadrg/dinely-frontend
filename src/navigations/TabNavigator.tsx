@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TabParamsList } from "./types";
 import { FontAwesome } from "@expo/vector-icons";
 import ReviewsScreen from "../screens/ReviewsScreen";
-import WishlistScreen from "../screens/WishlistScreen";
 import AccountNavigator from "./AccountNavigator";
 import AddNavigator from "./AddNavigator";
+import WishlistNavigator from "./WishlistNavigator";
 
 const Tab = createBottomTabNavigator<TabParamsList>();
 
@@ -18,7 +18,7 @@ const TabNavigator = () => (
     }}
   >
     <Tab.Screen
-      name="Reviews"
+      name="ReviewsTab"
       component={ReviewsScreen}
       options={{
         tabBarIcon: ({ focused }) => (
@@ -31,8 +31,8 @@ const TabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Wishlist"
-      component={WishlistScreen}
+      name="WishlistTab"
+      component={WishlistNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
           <FontAwesome
@@ -44,7 +44,7 @@ const TabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Add"
+      name="AddTab"
       component={AddNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
@@ -57,7 +57,7 @@ const TabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Account"
+      name="AccountTab"
       component={AccountNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
