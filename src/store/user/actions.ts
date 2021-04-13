@@ -7,6 +7,8 @@ import { appLoading, appDoneLoading } from "../appState/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showToast } from "../../functions";
 import { selectToken } from "./selectors";
+import { getTags } from "../tag/actions";
+import { getRestaurants } from "../restaurant/actions";
 
 export const logInSuccess = (user: User) => {
   return {
@@ -122,6 +124,8 @@ export const getUserWithStoredToken = (): AppThunk => {
 
       // Token is still valid
       dispatch(tokenStillValid({ token, ...response.data }));
+      dispatch(getTags());
+      dispatch(getRestaurants());
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {

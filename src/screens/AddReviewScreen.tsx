@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { onChangeInput, showToast } from "../functions";
 import { selectAppLoading } from "../store/appState/selectors";
 import { addRestaurant, updateRestaurant } from "../store/restaurant/actions";
-import { getTags } from "../store/tag/actions";
 import { selectUserTags } from "../store/tag/selectors";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AddImages from "../components/AddImages";
@@ -42,11 +41,6 @@ export default function AddReviewScreen({ route }: Props) {
   useEffect(() => {
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
   }, []);
-
-  // Set tags to state
-  useEffect(() => {
-    dispatch(getTags());
-  }, [dispatch]);
 
   // Get tags from state
   const userTags = useSelector(selectUserTags);

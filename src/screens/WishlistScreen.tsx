@@ -10,7 +10,7 @@ import {
   Input,
   Icon,
 } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MyModal from "../components/MyModal";
@@ -19,12 +19,10 @@ import RestaurantCard from "../components/RestaurantCard";
 import { onChangeInput } from "../functions";
 import { WishlistStackParamsList } from "../navigations/types";
 import { selectAppLoading } from "../store/appState/selectors";
-import { getRestaurants } from "../store/restaurant/actions";
 import {
   selectFilteredWishlist,
   selectRestaurantLocations,
 } from "../store/restaurant/selectors";
-import { getTags } from "../store/tag/actions";
 import { selectUserTags } from "../store/tag/selectors";
 
 type Props = {
@@ -40,16 +38,6 @@ export default function WishlistScreen({ navigation, route }: Props) {
 
   // Get loading from state
   const isLoading = useSelector(selectAppLoading);
-
-  // Set restaurants to state
-  useEffect(() => {
-    dispatch(getRestaurants());
-  }, [dispatch]);
-
-  // Set tags to state
-  useEffect(() => {
-    dispatch(getTags());
-  }, [dispatch]);
 
   // Get tags from state
   const userTags = useSelector(selectUserTags);
