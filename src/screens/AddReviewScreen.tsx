@@ -16,15 +16,27 @@ import { Rating } from "react-native-ratings";
 import { useDispatch, useSelector } from "react-redux";
 import { onChangeInput, showToast } from "../functions";
 import { selectAppLoading } from "../store/appState/selectors";
-import { addRestaurant } from "../store/restaurant/actions";
+import { addRestaurant, updateRestaurant } from "../store/restaurant/actions";
 import { getTags } from "../store/tag/actions";
 import { selectUserTags } from "../store/tag/selectors";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AddImages from "../components/AddImages";
 import SelectTags from "../components/SelectTags";
+import { AddStackParamsList } from "../navigations/types";
+import { RouteProp } from "@react-navigation/core";
 
-export default function AddWishlistScreen() {
+type Props = {
+  route: RouteProp<AddStackParamsList, "AddReview">;
+};
+
+export default function AddReviewScreen({ route }: Props) {
   const dispatch = useDispatch();
+
+  // Get parameters from route
+  const wishlistId = route.params?.id;
+  const wishlistName = route.params?.name;
+  const wishlistLocation = route.params?.location;
+  const wishlistTags = route.params?.tags;
 
   // Ignore virtualized list warning
   useEffect(() => {
@@ -51,12 +63,12 @@ export default function AddWishlistScreen() {
   const today = new Date();
 
   // Create states for input fields
-  const [name, setName] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
+  const [name, setName] = useState<string>(wishlistName || "");
+  const [location, setLocation] = useState<string>(wishlistLocation || "");
   const [rating, setRating] = useState<number>(0);
   const [dateVisited, setDateVisited] = useState<Date>(today);
   const [priceCategory, setPriceCategory] = useState<number>(0);
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(wishlistTags || []);
   const [additionalInfo, setAdditionalInfo] = useState<string>("");
   const [image1, setImage1] = useState<string>("");
   const [image2, setImage2] = useState<string>("");
@@ -77,21 +89,37 @@ export default function AddWishlistScreen() {
         "Okay"
       );
     } else {
-      dispatch(
-        addRestaurant({
-          name,
-          location,
-          rating,
-          dateVisited,
-          priceCategory,
-          additionalInfo,
-          image1,
-          image2,
-          image3,
-          tags: tagsIds,
-          isReviewed: true,
-        })
-      );
+      wishlistId
+        ? dispatch(
+            updateRestaurant(wishlistId, {
+              name,
+              location,
+              rating,
+              dateVisited,
+              priceCategory,
+              additionalInfo,
+              image1,
+              image2,
+              image3,
+              tags: tagsIds,
+              isReviewed: true,
+            })
+          )
+        : dispatch(
+            addRestaurant({
+              name,
+              location,
+              rating,
+              dateVisited,
+              priceCategory,
+              additionalInfo,
+              image1,
+              image2,
+              image3,
+              tags: tagsIds,
+              isReviewed: true,
+            })
+          );
       setName("");
       setLocation("");
       setRating(0);

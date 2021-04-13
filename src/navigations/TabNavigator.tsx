@@ -18,7 +18,7 @@ const TabNavigator = () => (
     }}
   >
     <Tab.Screen
-      name="Reviews"
+      name="ReviewsTab"
       component={ReviewsScreen}
       options={{
         tabBarIcon: ({ focused }) => (
@@ -31,7 +31,7 @@ const TabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Wishlist"
+      name="WishlistTab"
       component={WishlistNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
@@ -44,7 +44,7 @@ const TabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Add"
+      name="AddTab"
       component={AddNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
@@ -57,7 +57,7 @@ const TabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Account"
+      name="AccountTab"
       component={AccountNavigator}
       options={{
         tabBarIcon: ({ focused }) => (
