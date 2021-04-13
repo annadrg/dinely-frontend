@@ -21,6 +21,7 @@ const TabNavigator = () => (
       name="ReviewsTab"
       component={ReviewsNavigator}
       options={{
+        title: "Reviews",
         tabBarIcon: ({ focused }) => (
           <FontAwesome
             name="star"
@@ -34,6 +35,7 @@ const TabNavigator = () => (
       name="WishlistTab"
       component={WishlistNavigator}
       options={{
+        title: "Wishlist",
         tabBarIcon: ({ focused }) => (
           <FontAwesome
             name="cutlery"
@@ -47,6 +49,7 @@ const TabNavigator = () => (
       name="AddTab"
       component={AddNavigator}
       options={{
+        title: "Add",
         tabBarIcon: ({ focused }) => (
           <FontAwesome
             name="plus"
@@ -60,6 +63,7 @@ const TabNavigator = () => (
       name="AccountTab"
       component={AccountNavigator}
       options={{
+        title: "Account",
         tabBarIcon: ({ focused }) => (
           <FontAwesome
             name="user"
