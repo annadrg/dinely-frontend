@@ -11,6 +11,7 @@ import { StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import { onChangeInput, showToast } from "../functions";
 import { addTag } from "../store/tag/actions";
+import ColorPicker from "./ColorPicker";
 import MyModal from "./MyModal";
 
 type Props = {
@@ -22,13 +23,14 @@ export default function AddTagModal({ visible, setVisible }: Props) {
   const dispatch = useDispatch();
   // Create state for input fields
   const [newTagName, setNewTagName] = useState<string>("");
+  const [newTagColor, setNewTagColor] = useState<string>("black");
 
   // Handle add new tag
   const onAddTagClick = () => {
     if (!newTagName) {
       showToast("Please fill in all fields", 6000, "danger", "Okay");
     } else {
-      dispatch(addTag({ name: newTagName }));
+      dispatch(addTag({ name: newTagName, color: newTagColor }));
       setNewTagName("");
       setVisible(false);
     }
@@ -41,6 +43,8 @@ export default function AddTagModal({ visible, setVisible }: Props) {
         <Label>Tag name</Label>
         <Input value={newTagName} onChange={onChangeInput(setNewTagName)} />
       </FormItem>
+
+      <ColorPicker color={newTagColor} setColor={setNewTagColor} />
 
       <Button onPress={onAddTagClick} style={styles.modalButton}>
         <Text>Add tag</Text>
@@ -63,5 +67,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 20,
   },
-  form: { width: "100%" },
+  form: { width: "100%", flex: 1, maxHeight: 250 },
 });

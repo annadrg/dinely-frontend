@@ -4,6 +4,7 @@ import { AppThunk } from "../types";
 import { appLoading, appDoneLoading } from "../appState/actions";
 import { Tag, NewTag } from "./types";
 import { selectToken } from "../user/selectors";
+import { getRestaurants } from "../restaurant/actions";
 
 export const tagsFetched = (tags: Tag[]) => {
   return {
@@ -90,6 +91,7 @@ export const updateTag = (tagId: number, tag: NewTag): AppThunk => async (
     );
     const updatedTag = response.data;
     dispatch(updateOneTag(updatedTag));
+    dispatch(getRestaurants());
     dispatch(appDoneLoading());
   } catch (error) {
     if (error.response) {
@@ -119,6 +121,7 @@ export const deleteTag = (tagId: number): AppThunk => async (
       headers: { Authorization: `Bearer ${token}` },
     });
     dispatch(deleteOneTag(tagId));
+    dispatch(getRestaurants());
     dispatch(appDoneLoading());
   } catch (error) {
     if (error.response) {

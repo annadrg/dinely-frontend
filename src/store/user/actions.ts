@@ -73,6 +73,8 @@ export const logIn = (email: string, password: string): AppThunk => {
       try {
         await AsyncStorage.setItem("token", response.data.token);
         dispatch(logInSuccess(response.data));
+        dispatch(getTags());
+        dispatch(getRestaurants());
         dispatch(appDoneLoading());
         showToast("Welcome back!", 2000, "success", undefined);
       } catch (error) {

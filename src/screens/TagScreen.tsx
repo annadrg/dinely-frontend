@@ -17,9 +17,10 @@ import AddTagModal from "../components/AddTagModal";
 import MyModal from "../components/MyModal";
 import { onChangeInput, showToast } from "../functions";
 import { selectAppLoading } from "../store/appState/selectors";
-import { addTag, deleteTag, getTags, updateTag } from "../store/tag/actions";
+import { deleteTag, getTags, updateTag } from "../store/tag/actions";
 import { selectUserTags } from "../store/tag/selectors";
 import { Tag } from "../store/tag/types";
+import ColorPicker from "../components/ColorPicker";
 
 export default function TagScreen() {
   const dispatch = useDispatch();
@@ -47,15 +48,26 @@ export default function TagScreen() {
   });
 
   // Create states for input fields
-  const [updatedTagName, setUpdatedTagName] = useState<string>("");
+  const [updatedTagName, setUpdatedTagName] = useState<string>(
+    selectedTag.name
+  );
+  const [updatedTagColor, setUpdatedTagColor] = useState<string>(
+    selectedTag.color || "black"
+  );
 
   // Handle edit tag
   const onEditTagClick = () => {
     if (!updatedTagName) {
-      showToast("Please fill in all fields", 6000, "danger", "Okay");
+      showToast("Please fill in a name", 6000, "danger", "Okay");
     } else {
-      dispatch(updateTag(selectedTag.id, { name: updatedTagName }));
+      dispatch(
+        updateTag(selectedTag.id, {
+          name: updatedTagName,
+          color: updatedTagColor,
+        })
+      );
       setUpdatedTagName("");
+      setUpdatedTagColor("");
       setEditModalVisible(false);
     }
   };
@@ -87,6 +99,8 @@ export default function TagScreen() {
           onChange={onChangeInput(setUpdatedTagName)}
         />
       </FormItem>
+
+      <ColorPicker color={updatedTagColor} setColor={setUpdatedTagColor} />
 
       <Button onPress={onEditTagClick} style={styles.modalButton}>
         <Text>Edit tag</Text>
@@ -124,9 +138,15 @@ export default function TagScreen() {
           return (
             <Button
               key={tag.id}
-              style={styles.tagButton}
+              style={{
+                borderRadius: 40,
+                margin: 2,
+                backgroundColor: tag.color,
+              }}
               onPress={() => {
                 setSelectedTag(tag);
+                setUpdatedTagName(tag.name);
+                setUpdatedTagColor(tag.color || "");
                 setEditModalVisible(true);
               }}
             >
@@ -135,6 +155,7 @@ export default function TagScreen() {
           );
         })}
         <Button
+          dark
           style={styles.tagButton}
           onPress={() => setAddModalVisible(true)}
         >
@@ -170,6 +191,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 5,
   },
-  form: { width: "100%" },
+  form: { width: "100%", flex: 1, maxHeight: 300 },
   deleteIcon: { marginRight: 0 },
 });
