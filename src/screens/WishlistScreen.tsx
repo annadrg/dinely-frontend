@@ -150,7 +150,7 @@ export default function WishlistScreen({ navigation, route }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 10, paddingRight: 20, paddingTop: 60 },
+  container: { padding: 10, paddingTop: 60 },
   containerSpinner: { alignItems: "center", justifyContent: "center", flex: 1 },
   title: {
     fontWeight: "bold",

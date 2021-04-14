@@ -258,7 +258,7 @@ export default function ReviewsScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 10, paddingRight: 20, paddingTop: 60 },
+  container: { padding: 10, paddingTop: 60 },
   containerSpinner: { alignItems: "center", justifyContent: "center", flex: 1 },
   title: {
     fontWeight: "bold",
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 500,
   },
-  filterButton: { marginLeft: 5, marginBottom: 5 },
+  filterButton: { marginLeft: 5 },
   modalContainer: { width: 350, paddingRight: 15 },
   modalButton: { marginLeft: 15, marginTop: 20 },
   header: {
