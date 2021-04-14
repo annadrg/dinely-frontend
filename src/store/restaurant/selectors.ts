@@ -99,7 +99,7 @@ export const selectFilteredReviews = (
             restaurant.priceCategory?.toString() || ""
           )
         )
-      : [...filteredOnTags];
+      : [...filteredOnRating];
 
   if (sortingMethod === "DateAdded") {
     return [...filteredOnPriceCategory].sort((r1, r2) => {
