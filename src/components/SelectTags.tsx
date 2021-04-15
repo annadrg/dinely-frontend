@@ -35,7 +35,7 @@ export default function SelectTags({
         style={styles.tagButton}
         onPress={() => setAddModalVisible(true)}
       >
-        <Text>Add tag</Text>
+        <Text>Create new tag</Text>
       </Button>
 
       <AddTagModal visible={addModalVisible} setVisible={setAddModalVisible} />
