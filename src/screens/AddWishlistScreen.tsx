@@ -9,7 +9,7 @@ import {
   Text,
   Spinner,
 } from "native-base";
-import React, { PropsWithRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MyHeader from "../components/MyHeader";

@@ -1,4 +1,3 @@
-import { RouteProp } from "@react-navigation/core";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {
   Container,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, Icon } from "native-base";
+import { Button, Icon } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 
 type Props = {
