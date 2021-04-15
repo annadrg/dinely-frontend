@@ -1,11 +1,14 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { Dispatch } from "redux";
-import { ReduxState, AppThunk } from "../types";
-import { User } from "./types";
+import { AppThunk } from "../types";
+import { User, UserWithoutToken } from "./types";
 import { appLoading, appDoneLoading } from "../appState/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { toast } from "../../components/toast";
+import { showToast } from "../../functions";
+import { selectToken } from "./selectors";
+import { getTags } from "../tag/actions";
+import { getRestaurants } from "../restaurant/actions";
 
 export const logInSuccess = (user: User) => {
   return {
@@ -19,7 +22,14 @@ const tokenStillValid = (user: User) => ({
   payload: user,
 });
 
-export const logOutSuccess = () => ({ type: "user/LogOut" });
+export const logOutSuccess = () => ({ type: "user/logOutSuccess" });
+
+export const updateUserDetails = (user: UserWithoutToken) => {
+  return {
+    type: "user/updateUserDetails",
+    payload: user,
+  };
+};
 
 export const signUp = (
   firstName: string,
@@ -36,16 +46,15 @@ export const signUp = (
         firstName,
         lastName,
       });
-
-      toast.showToast("Succesfully signed up", 5000, "success", undefined);
       dispatch(appDoneLoading());
+      showToast("Succesfully signed up", 2500, "success", undefined);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
-        toast.showToast(error.response.data.message, 6000, "danger", "Okay");
+        showToast(error.response.data.message, 6000, "danger", "Okay");
       } else {
         console.log(error.message);
-        toast.showToast(error.message, 6000, "danger", "Okay");
+        showToast(error.message, 6000, "danger", "Okay");
       }
       dispatch(appDoneLoading());
     }
@@ -64,19 +73,21 @@ export const logIn = (email: string, password: string): AppThunk => {
       try {
         await AsyncStorage.setItem("token", response.data.token);
         dispatch(logInSuccess(response.data));
-        toast.showToast("Welcome back!", 5000, "success", undefined);
+        dispatch(getTags());
+        dispatch(getRestaurants());
         dispatch(appDoneLoading());
+        showToast("Welcome back!", 2500, "success", undefined);
       } catch (error) {
-        toast.showToast(error.message, 6000, "danger", "Okay");
         dispatch(appDoneLoading());
+        showToast(error.message, 6000, "danger", "Okay");
       }
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
-        toast.showToast(error.response.data.message, 6000, "danger", "Okay");
+        showToast(error.response.data.message, 6000, "danger", "Okay");
       } else {
         console.log(error.message);
-        toast.showToast(error.message, 6000, "danger", "Okay");
+        showToast(error.message, 6000, "danger", "Okay");
       }
       dispatch(appDoneLoading());
     }
@@ -84,7 +95,7 @@ export const logIn = (email: string, password: string): AppThunk => {
 };
 
 export const logOut = (): AppThunk => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     dispatch(appLoading());
     try {
       // Remove token to log out
@@ -92,14 +103,14 @@ export const logOut = (): AppThunk => {
       dispatch(logOutSuccess());
       dispatch(appDoneLoading());
     } catch (error) {
-      toast.showToast(error.message, 2500, "danger", "Okay");
+      showToast(error.message, 2500, "danger", "Okay");
       dispatch(appDoneLoading());
     }
   };
 };
 
 export const getUserWithStoredToken = (): AppThunk => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     // Get token from storage
     const token = await AsyncStorage.getItem("token");
 
@@ -115,6 +126,8 @@ export const getUserWithStoredToken = (): AppThunk => {
 
       // Token is still valid
       dispatch(tokenStillValid({ token, ...response.data }));
+      dispatch(getTags());
+      dispatch(getRestaurants());
       dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
@@ -124,6 +137,76 @@ export const getUserWithStoredToken = (): AppThunk => {
       }
       // Log out when token not valid
       dispatch(logOut());
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const changeUserDetails = (
+  id: number | null,
+  firstName: string,
+  lastName: string,
+  email: string
+): AppThunk => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    try {
+      const token = selectToken(getState());
+      const response = await axios.patch(
+        `${apiUrl}/users/${id}`,
+        {
+          email,
+          firstName,
+          lastName,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      dispatch(updateUserDetails(response.data));
+      dispatch(appDoneLoading());
+      showToast("Details succesfully changed", 2500, "success", undefined);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        showToast(error.response.data.message, 6000, "danger", "Okay");
+      } else {
+        console.log(error.message);
+        showToast(error.message, 6000, "danger", "Okay");
+      }
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const changePassword = (
+  id: number | null,
+  password: string
+): AppThunk => {
+  return async (dispatch, getState) => {
+    dispatch(appLoading());
+    try {
+      const token = selectToken(getState());
+      await axios.patch(
+        `${apiUrl}/users/${id}`,
+        {
+          password,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(appDoneLoading());
+      showToast("Password succesfully changed", 2500, "success", undefined);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        showToast(error.response.data.message, 6000, "danger", "Okay");
+      } else {
+        console.log(error.message);
+        showToast(error.message, 6000, "danger", "Okay");
+      }
       dispatch(appDoneLoading());
     }
   };

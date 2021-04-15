@@ -7,62 +7,41 @@ import {
   Item as FormItem,
   Input,
   Label,
+  Spinner,
 } from "native-base";
-import {
-  Keyboard,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from "react-native";
-import { useDispatch } from "react-redux";
-import { logIn, signUp } from "../store/user/actions";
-import { toast } from "../components/toast";
+import { Keyboard, StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../store/user/actions";
+import { showToast } from "../functions";
+import { onChangeInput } from "../functions";
+import { selectAppLoading } from "../store/appState/selectors";
+import MyHeader from "../components/MyHeader";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamsList } from "../navigations/types";
 
-export default function SignUpScreen() {
+type Props = {
+  navigation: StackNavigationProp<AuthStackParamsList, "SignUp">;
+};
+
+export default function SignUpScreen({ navigation }: Props) {
   const dispatch = useDispatch();
+
+  // Get loading from state
+  const isLoading = useSelector(selectAppLoading);
+
+  // Create states for input fields
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordCheck, setPasswordCheck] = useState<string>("");
 
-  const onChangeFirstName = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setFirstName(value);
-  };
-
-  const onChangeLastName = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setLastName(value);
-  };
-
-  const onChangeEmail = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setEmail(value);
-  };
-
-  const onChangePassword = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setPassword(value);
-  };
-
-  const onChangePasswordCheck = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>
-  ): void => {
-    const value = e.nativeEvent.text;
-    setPasswordCheck(value);
-  };
-
+  // Handle sign up submit
   const onSubmitClick = () => {
-    if (password !== passwordCheck) {
-      toast.showToast("Passwords do not match", 6000, "danger", "Okay");
+    if (!firstName || !lastName || !email || !password || !passwordCheck) {
+      showToast("Please fill in all fields", 6000, "danger", "Okay");
+    } else if (password !== passwordCheck) {
+      showToast("Passwords do not match", 6000, "danger", "Okay");
     } else {
       dispatch(signUp(firstName, lastName, email, password));
       Keyboard.dismiss();
@@ -74,46 +53,65 @@ export default function SignUpScreen() {
     }
   };
 
-  return (
-    <Container style={{ padding: 10, paddingRight: 20 }}>
-      <Form>
-        <FormItem floatingLabel>
-          <Label>First name</Label>
-          <Input value={firstName} onChange={onChangeFirstName} />
-        </FormItem>
-        <FormItem floatingLabel>
-          <Label>Last name</Label>
-          <Input value={lastName} onChange={onChangeLastName} />
-        </FormItem>
-        <FormItem floatingLabel>
-          <Label>Email</Label>
-          <Input value={email} onChange={onChangeEmail} />
-        </FormItem>
-        <FormItem floatingLabel>
-          <Label>Password</Label>
-          <Input
-            secureTextEntry={true}
-            value={password}
-            onChange={onChangePassword}
-          />
-        </FormItem>
-        <FormItem floatingLabel>
-          <Label>Confirm password</Label>
-          <Input
-            secureTextEntry={true}
-            value={passwordCheck}
-            onChange={onChangePasswordCheck}
-          />
-        </FormItem>
+  // Return spinner when loading
+  if (isLoading) {
+    return (
+      <Container style={styles.containerSpinner}>
+        <Spinner color="black" />
+      </Container>
+    );
+  }
 
-        <Button
-          primary
-          onPress={onSubmitClick}
-          style={{ paddingBottom: 4, alignSelf: "center", marginVertical: 20 }}
-        >
-          <Text> Sign up </Text>
-        </Button>
-      </Form>
+  return (
+    <Container>
+      <MyHeader title="Sign up" goBack={navigation.goBack} />
+      <Container style={styles.container}>
+        <Form>
+          <FormItem floatingLabel>
+            <Label>First name</Label>
+            <Input value={firstName} onChange={onChangeInput(setFirstName)} />
+          </FormItem>
+          <FormItem floatingLabel>
+            <Label>Last name</Label>
+            <Input value={lastName} onChange={onChangeInput(setLastName)} />
+          </FormItem>
+          <FormItem floatingLabel>
+            <Label>Email</Label>
+            <Input
+              keyboardType="email-address"
+              autoCapitalize="none"
+              value={email}
+              onChange={onChangeInput(setEmail)}
+            />
+          </FormItem>
+          <FormItem floatingLabel>
+            <Label>Password</Label>
+            <Input
+              secureTextEntry={true}
+              value={password}
+              onChange={onChangeInput(setPassword)}
+            />
+          </FormItem>
+          <FormItem floatingLabel>
+            <Label>Confirm password</Label>
+            <Input
+              secureTextEntry={true}
+              value={passwordCheck}
+              onChange={onChangeInput(setPasswordCheck)}
+            />
+          </FormItem>
+
+          <Button dark onPress={onSubmitClick} style={styles.button}>
+            <Text> Sign up </Text>
+          </Button>
+        </Form>
+      </Container>
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { padding: 10, paddingRight: 20, flex: 5 },
+  containerSpinner: { alignItems: "center", justifyContent: "center", flex: 1 },
+  button: { paddingBottom: 4, alignSelf: "center", marginVertical: 20 },
+});

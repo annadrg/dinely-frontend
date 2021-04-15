@@ -7,6 +7,7 @@ import { getUserWithStoredToken } from "./src/store/user/actions";
 import { Root } from "native-base";
 import TabNavigator from "./src/navigations/TabNavigator";
 import { selectToken } from "./src/store/user/selectors";
+import { StatusBar } from "expo-status-bar";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <Root>
+      <StatusBar style="light" />
       <NavigationContainer>
         {token ? <TabNavigator /> : <AuthNavigator />}
       </NavigationContainer>

@@ -17,12 +17,12 @@ const AuthNavigator = () => (
     <AuthStack.Screen
       name="LogIn"
       component={LogInScreen}
-      options={{ title: "Log in" }}
+      options={{ headerShown: false }}
     />
     <AuthStack.Screen
       name="SignUp"
       component={SignUpScreen}
-      options={{ title: "Sign up" }}
+      options={{ headerShown: false }}
     />
   </AuthStack.Navigator>
 );
