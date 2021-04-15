@@ -1,3 +1,4 @@
+import { NavigationProp } from "@react-navigation/core";
 import {
   Container,
   Form,
@@ -8,17 +9,23 @@ import {
   Text,
   Spinner,
 } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { PropsWithRef, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import MyHeader from "../components/MyHeader";
 import SelectTags from "../components/SelectTags";
 import { onChangeInput, showToast } from "../functions";
+import { AddStackParamsList } from "../navigations/types";
 import { selectAppLoading } from "../store/appState/selectors";
 import { addRestaurant } from "../store/restaurant/actions";
 import { getTags } from "../store/tag/actions";
 import { selectUserTags } from "../store/tag/selectors";
 
-export default function AddWishlistScreen() {
+type Props = {
+  navigation: NavigationProp<AddStackParamsList, "AddReview">;
+};
+
+export default function AddWishlistScreen({ navigation }: Props) {
   const dispatch = useDispatch();
 
   // Set tags to state
@@ -74,33 +81,36 @@ export default function AddWishlistScreen() {
   }
 
   return (
-    <Container style={styles.container}>
-      <Form>
-        <FormItem stackedLabel>
-          <Label style={styles.label}>Restaurant name</Label>
-          <Input value={name} onChange={onChangeInput(setName)} />
-        </FormItem>
-        <FormItem stackedLabel>
-          <Label style={styles.label}>Location</Label>
-          <Input value={location} onChange={onChangeInput(setLocation)} />
-        </FormItem>
-        <Text style={styles.multiSelectLabel}>Tags</Text>
-        <SelectTags
-          allTags={userTagsWithString}
-          selectedTags={tags}
-          setSelectedTags={setTags}
-        />
+    <Container>
+      <MyHeader title="Add to wishlist" goBack={navigation.goBack} />
+      <Container style={styles.container}>
+        <Form>
+          <FormItem stackedLabel>
+            <Label style={styles.label}>Restaurant name</Label>
+            <Input value={name} onChange={onChangeInput(setName)} />
+          </FormItem>
+          <FormItem stackedLabel>
+            <Label style={styles.label}>Location</Label>
+            <Input value={location} onChange={onChangeInput(setLocation)} />
+          </FormItem>
+          <Text style={styles.multiSelectLabel}>Tags</Text>
+          <SelectTags
+            allTags={userTagsWithString}
+            selectedTags={tags}
+            setSelectedTags={setTags}
+          />
 
-        <Button primary onPress={onSubmitClick} style={styles.button}>
-          <Text>Add</Text>
-        </Button>
-      </Form>
+          <Button dark onPress={onSubmitClick} style={styles.button}>
+            <Text>Add to wishlist</Text>
+          </Button>
+        </Form>
+      </Container>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 10, paddingRight: 20 },
+  container: { padding: 10, paddingRight: 20, flex: 5 },
   containerSpinner: { alignItems: "center", justifyContent: "center", flex: 1 },
   button: { paddingBottom: 4, alignSelf: "center", marginVertical: 20 },
   multiSelect: { marginLeft: 15 },

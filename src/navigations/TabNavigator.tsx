@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator<TabParamsList>();
 const TabNavigator = () => (
   <Tab.Navigator
     tabBarOptions={{
-      activeTintColor: "tomato",
+      activeTintColor: "#c33d2e",
       inactiveTintColor: "gray",
       labelPosition: "below-icon",
     }}
@@ -25,7 +25,7 @@ const TabNavigator = () => (
         tabBarIcon: ({ focused }) => (
           <FontAwesome
             name="star"
-            color={focused ? "tomato" : "#000000"}
+            color={focused ? "#c33d2e" : "#000000"}
             size={20}
           />
         ),
@@ -39,7 +39,7 @@ const TabNavigator = () => (
         tabBarIcon: ({ focused }) => (
           <FontAwesome
             name="cutlery"
-            color={focused ? "tomato" : "#000000"}
+            color={focused ? "#c33d2e" : "#000000"}
             size={20}
           />
         ),
@@ -53,7 +53,7 @@ const TabNavigator = () => (
         tabBarIcon: ({ focused }) => (
           <FontAwesome
             name="plus"
-            color={focused ? "tomato" : "#000000"}
+            color={focused ? "#c33d2e" : "#000000"}
             size={20}
           />
         ),
@@ -67,7 +67,7 @@ const TabNavigator = () => (
         tabBarIcon: ({ focused }) => (
           <FontAwesome
             name="user"
-            color={focused ? "tomato" : "#000000"}
+            color={focused ? "#c33d2e" : "#000000"}
             size={20}
           />
         ),

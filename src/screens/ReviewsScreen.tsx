@@ -25,6 +25,7 @@ import {
   selectRestaurantLocations,
 } from "../store/restaurant/selectors";
 import { selectUserTags } from "../store/tag/selectors";
+import MyHeader from "../components/MyHeader";
 
 type Props = {
   navigation: StackNavigationProp<ReviewsStackParamsList, "Reviews">;
@@ -123,6 +124,7 @@ export default function ReviewsScreen({ navigation }: Props) {
       />
       <Button
         small
+        dark
         style={styles.modalButton}
         onPress={() => {
           setSelectedTags([]);
@@ -146,132 +148,130 @@ export default function ReviewsScreen({ navigation }: Props) {
   }
 
   return (
-    <Container style={styles.container}>
-      <Text style={styles.title}>Reviews</Text>
-      <Button
-        small
-        style={styles.filterButton}
-        onPress={() => setFilterModalVisible(true)}
-      >
-        <Text>Filter</Text>
-      </Button>
-      <Header searchBar rounded style={styles.header}>
-        <Item style={styles.item}>
-          <Icon name="ios-search" />
-          <Input
-            value={search}
-            onChange={onChangeInput(setSearch)}
-            placeholder="Search"
-          />
+    <Container>
+      <MyHeader title="My reviews" />
+      <Container style={styles.container}>
+        {/* <Text style={styles.title}>Reviews</Text> */}
+        <Button
+          small
+          dark
+          style={styles.filterButton}
+          onPress={() => setFilterModalVisible(true)}
+        >
+          <Text>Filter</Text>
+        </Button>
+        <Header searchBar rounded style={styles.header}>
+          <Item style={styles.item}>
+            <Icon name="ios-search" />
+            <Input
+              value={search}
+              onChange={onChangeInput(setSearch)}
+              placeholder="Search"
+            />
+          </Item>
+        </Header>
+        <Item style={styles.sortByContainer}>
+          <Text style={{ fontSize: 12 }}>Sort by:</Text>
+          <Button
+            small
+            style={styles.sortButton}
+            onPress={() => setSortBy("Rating")}
+          >
+            <Text
+              style={
+                sortBy === "Rating"
+                  ? styles.sortButtonTextSelected
+                  : styles.sortButtonText
+              }
+            >
+              Rating
+            </Text>
+          </Button>
+
+          <Text>|</Text>
+
+          <Button
+            small
+            style={styles.sortButton}
+            onPress={() => setSortBy("DateVisited")}
+          >
+            <Text
+              style={
+                sortBy === "DateVisited"
+                  ? styles.sortButtonTextSelected
+                  : styles.sortButtonText
+              }
+            >
+              Date visited
+            </Text>
+          </Button>
+
+          <Text>|</Text>
+
+          <Button
+            small
+            style={styles.sortButton}
+            onPress={() => setSortBy("DateAdded")}
+          >
+            <Text
+              style={
+                sortBy === "DateAdded"
+                  ? styles.sortButtonTextSelected
+                  : styles.sortButtonText
+              }
+            >
+              Date added
+            </Text>
+          </Button>
         </Item>
-      </Header>
-      <Item style={styles.sortByContainer}>
-        <Text style={{ fontSize: 12 }}>Sort by:</Text>
-        <Button
-          small
-          style={styles.sortButton}
-          onPress={() => setSortBy("Rating")}
-        >
-          <Text
-            style={
-              sortBy === "Rating"
-                ? styles.sortButtonTextSelected
-                : styles.sortButtonText
-            }
-          >
-            Rating
-          </Text>
-        </Button>
-
-        <Text>|</Text>
-
-        <Button
-          small
-          style={styles.sortButton}
-          onPress={() => setSortBy("DateVisited")}
-        >
-          <Text
-            style={
-              sortBy === "DateVisited"
-                ? styles.sortButtonTextSelected
-                : styles.sortButtonText
-            }
-          >
-            Date visited
-          </Text>
-        </Button>
-
-        <Text>|</Text>
-
-        <Button
-          small
-          style={styles.sortButton}
-          onPress={() => setSortBy("DateAdded")}
-        >
-          <Text
-            style={
-              sortBy === "DateAdded"
-                ? styles.sortButtonTextSelected
-                : styles.sortButtonText
-            }
-          >
-            Date added
-          </Text>
-        </Button>
-      </Item>
-      <Content>
-        {filteredRestaurants.length ? (
-          filteredRestaurants.map((restaurant) => {
-            return (
-              <Pressable
-                key={restaurant.id}
-                onPress={() =>
-                  navigation.navigate("ReviewDetails", {
-                    restaurantId: restaurant.id,
-                  })
-                }
-              >
-                <RestaurantCard
-                  isReviewed
-                  name={restaurant.name}
-                  location={restaurant.location}
-                  tags={restaurant.tags}
-                  rating={restaurant.rating}
-                />
-              </Pressable>
-            );
-          })
-        ) : (
-          <Container style={styles.textContainer}>
-            <Text>No restaurants</Text>
-          </Container>
-        )}
-      </Content>
-      <MyModal
-        visible={filterModalVisible}
-        setVisible={setFilterModalVisible}
-        title="Select filters"
-        content={filterModalContent}
-      />
+        <Content>
+          {filteredRestaurants.length ? (
+            filteredRestaurants.map((restaurant) => {
+              return (
+                <Pressable
+                  key={restaurant.id}
+                  onPress={() =>
+                    navigation.navigate("ReviewDetails", {
+                      restaurantId: restaurant.id,
+                    })
+                  }
+                >
+                  <RestaurantCard
+                    isReviewed
+                    name={restaurant.name}
+                    location={restaurant.location}
+                    tags={restaurant.tags}
+                    rating={restaurant.rating}
+                  />
+                </Pressable>
+              );
+            })
+          ) : (
+            <Container style={styles.textContainer}>
+              <Text>No restaurants</Text>
+            </Container>
+          )}
+        </Content>
+        <MyModal
+          visible={filterModalVisible}
+          setVisible={setFilterModalVisible}
+          title="Select filters"
+          content={filterModalContent}
+        />
+      </Container>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 10, paddingRight: 20, paddingTop: 60 },
+  container: { paddingHorizontal: 10, paddingTop: 10, flex: 5 },
   containerSpinner: { alignItems: "center", justifyContent: "center", flex: 1 },
-  title: {
-    fontWeight: "bold",
-    fontSize: 30,
-    textAlign: "center",
-    marginVertical: 10,
-  },
   textContainer: {
     alignItems: "center",
     justifyContent: "center",
     height: 500,
   },
-  filterButton: { marginLeft: 5, marginBottom: 5 },
+  filterButton: { marginLeft: 5 },
   modalContainer: { width: 350, paddingRight: 15 },
   modalButton: { marginLeft: 15, marginTop: 20 },
   header: {

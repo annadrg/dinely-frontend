@@ -22,13 +22,15 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import AddImages from "../components/AddImages";
 import SelectTags from "../components/SelectTags";
 import { AddStackParamsList } from "../navigations/types";
-import { RouteProp } from "@react-navigation/core";
+import { NavigationProp, RouteProp } from "@react-navigation/core";
+import MyHeader from "../components/MyHeader";
 
 type Props = {
+  navigation: NavigationProp<AddStackParamsList, "AddReview">;
   route: RouteProp<AddStackParamsList, "AddReview">;
 };
 
-export default function AddReviewScreen({ route }: Props) {
+export default function AddReviewScreen({ navigation, route }: Props) {
   const dispatch = useDispatch();
 
   // Get parameters from route
@@ -131,6 +133,7 @@ export default function AddReviewScreen({ route }: Props) {
   const priceButton = (priceCat: number) => {
     return (
       <Button
+        dark
         style={
           priceCategory === priceCat
             ? styles.selectedPriceButton
@@ -157,77 +160,85 @@ export default function AddReviewScreen({ route }: Props) {
   }
 
   return (
-    <Content style={styles.container}>
-      <Form>
-        <FormItem stackedLabel>
-          <Label style={styles.label}>Restaurant name</Label>
-          <Input value={name} onChange={onChangeInput(setName)} />
-        </FormItem>
-        <FormItem stackedLabel>
-          <Label style={styles.label}>Location</Label>
-          <Input value={location} onChange={onChangeInput(setLocation)} />
-        </FormItem>
-      </Form>
-      <Text style={styles.customLabel}>Visited on</Text>
-      <DateTimePicker
-        style={styles.date}
-        mode="date"
-        maximumDate={new Date()}
-        value={dateVisited}
-        onChange={(e, selected) => {
-          const date = selected || new Date();
-          setDateVisited(date);
-        }}
-      />
-      <Text style={styles.customLabel}>Rating</Text>
-      <Rating
-        startingValue={rating}
-        onFinishRating={setRating}
-        style={styles.starRating}
-      />
-      <Text style={styles.customLabel}>Price category</Text>
-      <Container style={styles.priceContainer}>
-        {priceButton(1)}
-        {priceButton(2)}
-        {priceButton(3)}
-        {priceButton(4)}
+    <Container>
+      <MyHeader title="Add review" goBack={navigation.goBack} />
+      <Container style={styles.flexContainer}>
+        <Content style={styles.container}>
+          <Form>
+            <FormItem stackedLabel>
+              <Label style={styles.label}>Restaurant name</Label>
+              <Input value={name} onChange={onChangeInput(setName)} />
+            </FormItem>
+            <FormItem stackedLabel>
+              <Label style={styles.label}>Location</Label>
+              <Input value={location} onChange={onChangeInput(setLocation)} />
+            </FormItem>
+          </Form>
+          <Text style={styles.customLabel}>Visited on</Text>
+          <DateTimePicker
+            style={styles.date}
+            mode="date"
+            maximumDate={new Date()}
+            display="spinner"
+            textColor="black"
+            value={dateVisited}
+            onChange={(e, selected) => {
+              const date = selected || new Date();
+              setDateVisited(date);
+            }}
+          />
+          <Text style={styles.customLabel}>Rating</Text>
+          <Rating
+            startingValue={rating}
+            onFinishRating={setRating}
+            style={styles.starRating}
+          />
+          <Text style={styles.customLabel}>Price category</Text>
+          <Container style={styles.priceContainer}>
+            {priceButton(1)}
+            {priceButton(2)}
+            {priceButton(3)}
+            {priceButton(4)}
+          </Container>
+          <Text style={styles.customLabel}>Tags</Text>
+          <SelectTags
+            allTags={userTagsWithString}
+            selectedTags={tags}
+            setSelectedTags={setTags}
+          />
+
+          <Text style={styles.customLabel}>Pictures</Text>
+          <AddImages
+            image1={image1}
+            setImage1={setImage1}
+            image2={image2}
+            setImage2={setImage2}
+            image3={image3}
+            setImage3={setImage3}
+          />
+
+          <Form style={styles.textarea}>
+            <Label style={styles.label}>Additional info</Label>
+            <Textarea
+              rowSpan={5}
+              bordered
+              value={additionalInfo}
+              onChange={onChangeInput(setAdditionalInfo)}
+            />
+          </Form>
+
+          <Button dark onPress={onSubmitClick} style={styles.button}>
+            <Text>Save review</Text>
+          </Button>
+        </Content>
       </Container>
-      <Text style={styles.customLabel}>Tags</Text>
-      <SelectTags
-        allTags={userTagsWithString}
-        selectedTags={tags}
-        setSelectedTags={setTags}
-      />
-
-      <Text style={styles.customLabel}>Pictures</Text>
-      <AddImages
-        image1={image1}
-        setImage1={setImage1}
-        image2={image2}
-        setImage2={setImage2}
-        image3={image3}
-        setImage3={setImage3}
-      />
-
-      <Form style={styles.textarea}>
-        <Label style={styles.label}>Additional info</Label>
-        <Textarea
-          rowSpan={5}
-          bordered
-          value={additionalInfo}
-          onChange={onChangeInput(setAdditionalInfo)}
-        />
-      </Form>
-
-      <Button primary onPress={onSubmitClick} style={styles.button}>
-        <Text>Add</Text>
-      </Button>
-    </Content>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 10, paddingRight: 20, backgroundColor: "white" },
+  container: { padding: 10, paddingRight: 20 },
+  flexContainer: { flex: 5 },
   containerSpinner: { alignItems: "center", justifyContent: "center", flex: 1 },
   button: { paddingBottom: 4, alignSelf: "center", marginVertical: 20 },
   customLabel: {
@@ -251,6 +262,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   priceButton: { marginRight: 2 },
-  selectedPriceButton: { backgroundColor: "tomato", marginRight: 2 },
+  selectedPriceButton: { backgroundColor: "#c33d2e", marginRight: 2 },
   textarea: { marginLeft: 15, marginTop: 20 },
 });

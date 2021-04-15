@@ -10,7 +10,7 @@ import {
   Spinner,
 } from "native-base";
 import React, { useState } from "react";
-import { Keyboard, StyleSheet } from "react-native";
+import { ImageBackground, Keyboard, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import MyModal from "../components/MyModal";
 import { onChangeInput, showToast } from "../functions";
@@ -92,7 +92,7 @@ export default function AccountScreen({ navigation }: Props) {
         <Input value={email} onChange={onChangeInput(setEmail)} />
       </FormItem>
 
-      <Button onPress={onDetailsChangeClick} style={styles.modalButton}>
+      <Button dark onPress={onDetailsChangeClick} style={styles.modalButton}>
         <Text>Save</Text>
       </Button>
     </Form>
@@ -118,7 +118,7 @@ export default function AccountScreen({ navigation }: Props) {
         />
       </FormItem>
 
-      <Button onPress={onPasswordChangeClick} style={styles.modalButton}>
+      <Button dark onPress={onPasswordChangeClick} style={styles.modalButton}>
         <Text>Save</Text>
       </Button>
     </Form>
@@ -134,67 +134,95 @@ export default function AccountScreen({ navigation }: Props) {
   }
 
   return (
-    <Container style={styles.container}>
-      <Text style={styles.title}>{`${user.firstName} ${user.lastName}`}</Text>
-      <Text style={styles.subtitle}>{user.email}</Text>
+    <ImageBackground
+      source={require("../assets/background.jpg")}
+      style={styles.backgroundImage}
+    >
+      <Container style={styles.container}>
+        <Text style={styles.title}>{`${user.firstName} ${user.lastName}`}</Text>
+        <Text style={styles.subtitle}>{user.email}</Text>
 
-      <MyModal
-        visible={detailsModalVisible}
-        setVisible={setDetailsModalVisible}
-        title="Change personal details"
-        content={detailsModalContent}
-      />
+        <MyModal
+          visible={detailsModalVisible}
+          setVisible={setDetailsModalVisible}
+          title="Change personal details"
+          content={detailsModalContent}
+        />
 
-      <MyModal
-        visible={passwordModalVisible}
-        setVisible={setPasswordModalVisible}
-        title="Change password"
-        content={passwordModalContent}
-      />
+        <MyModal
+          visible={passwordModalVisible}
+          setVisible={setPasswordModalVisible}
+          title="Change password"
+          content={passwordModalContent}
+        />
 
-      <Button
-        full
-        style={styles.topButton}
-        onPress={() => navigation.navigate("Tags")}
-      >
-        <Text>Manage tags</Text>
-      </Button>
-      <Button
-        full
-        style={styles.button}
-        onPress={() => setDetailsModalVisible(true)}
-      >
-        <Text>Change personal details</Text>
-      </Button>
-      <Button
-        full
-        style={styles.button}
-        onPress={() => setPasswordModalVisible(true)}
-      >
-        <Text>Change password</Text>
-      </Button>
-      <Button full style={styles.button} onPress={onLogOutClick}>
-        <Text>Log out</Text>
-      </Button>
-    </Container>
+        <Button
+          full
+          style={styles.topButton}
+          onPress={() => navigation.navigate("Tags")}
+        >
+          <Text style={styles.buttonText}>Manage tags</Text>
+        </Button>
+        <Button
+          full
+          style={styles.button}
+          onPress={() => setDetailsModalVisible(true)}
+        >
+          <Text style={styles.buttonText}>Change personal details</Text>
+        </Button>
+        <Button
+          full
+          style={styles.button}
+          onPress={() => setPasswordModalVisible(true)}
+        >
+          <Text style={styles.buttonText}>Change password</Text>
+        </Button>
+        <Button full style={styles.button} onPress={onLogOutClick}>
+          <Text style={styles.buttonText}>Log out</Text>
+        </Button>
+      </Container>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { alignItems: "center", justifyContent: "center", flex: 1 },
+  backgroundImage: { width: "100%", height: "100%" },
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    backgroundColor: "transparent",
+  },
   title: {
     fontWeight: "bold",
     fontSize: 30,
     textAlign: "center",
     marginTop: 10,
+    color: "white",
   },
-  subtitle: { fontWeight: "200", fontSize: 16, textAlign: "center" },
-  topButton: { marginHorizontal: 10, marginTop: 50, borderRadius: 10 },
-  button: { marginHorizontal: 10, marginTop: 5, borderRadius: 10 },
+  subtitle: {
+    fontWeight: "400",
+    fontSize: 16,
+    textAlign: "center",
+    color: "white",
+  },
+  topButton: {
+    marginHorizontal: 10,
+    marginTop: 50,
+    borderRadius: 10,
+    backgroundColor: "white",
+  },
+  button: {
+    marginHorizontal: 10,
+    marginTop: 5,
+    borderRadius: 10,
+    backgroundColor: "white",
+  },
+  buttonText: { color: "black" },
   modalButton: {
     paddingBottom: 4,
     alignSelf: "center",
     marginVertical: 20,
   },
-  form: { width: "100%" },
+  form: { width: "100%", marginRight: 10 },
 });

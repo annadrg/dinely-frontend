@@ -16,7 +16,7 @@ const ReviewsNavigator = () => (
     <ReviewsStack.Screen
       name="ReviewDetails"
       component={ReviewDetailsScreen}
-      options={{ title: "Restaurant details" }}
+      options={{ headerShown: false }}
     />
   </ReviewsStack.Navigator>
 );

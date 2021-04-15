@@ -50,6 +50,7 @@ export default function ImageInput({ setImage }: Props) {
 
   return (
     <Button
+      dark
       onPress={pickImage}
       style={{
         height: 100,

@@ -17,6 +17,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Alert, LogBox, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import MyHeader from "../components/MyHeader";
 import MyModal from "../components/MyModal";
 import SelectTags from "../components/SelectTags";
 import { onChangeInput, showToast } from "../functions";
@@ -129,12 +130,8 @@ export default function WishlistDetailsScreen({ navigation, route }: Props) {
           setSelectedTags={setTags}
         />
 
-        <Button
-          primary
-          onPress={onEditRestaurantClick}
-          style={styles.modalButton}
-        >
-          <Text>Edit</Text>
+        <Button dark onPress={onEditRestaurantClick} style={styles.modalButton}>
+          <Text>Save</Text>
         </Button>
       </Form>
     </Content>
@@ -150,66 +147,75 @@ export default function WishlistDetailsScreen({ navigation, route }: Props) {
   }
 
   return (
-    <Container style={styles.container}>
-      <Text style={styles.title}>{restaurant?.name}</Text>
-      <Text style={styles.subtitle}>
-        <Icon name="location" style={styles.icon} /> {restaurant?.location}
-      </Text>
-      <Item style={styles.tagContainer}>
-        {restaurant?.tags.map((tag) => {
-          return (
-            <Button
-              key={tag.id}
-              style={{
-                backgroundColor:
-                  tag.color !== "#ffffff" ? tag.color : "#000000",
-                borderRadius: 30,
-                marginRight: 2,
-              }}
-            >
-              <Text style={{ color: "#ffffff", fontSize: 18 }}>{tag.name}</Text>
-            </Button>
-          );
-        })}
-      </Item>
-      <Container style={styles.buttonContainer}>
-        <Button
-          style={styles.reviewButton}
-          onPress={() =>
-            navigation.navigate("AddTab", {
-              screen: "AddReview",
-              params: {
-                id: restaurant?.id,
-                name: restaurant?.name,
-                location: restaurant?.location,
-                tags: tagIds,
-              },
-            })
-          }
-        >
-          <Icon name="star" style={styles.buttonIcon} />
-          <Text>Review</Text>
-        </Button>
-        <Button style={styles.button} onPress={() => setEditModalVisible(true)}>
-          <Text>Edit</Text>
-        </Button>
-        <MyModal
-          visible={editModalVisible}
-          setVisible={setEditModalVisible}
-          title="Edit"
-          content={editModalContent}
-        />
-        <Button onPress={onDeleteRestaurantClick}>
-          <Icon name="trash" style={styles.buttonIcon} />
-          <Text>Delete</Text>
-        </Button>
+    <Container>
+      <MyHeader goBack={navigation.goBack} />
+      <Container style={styles.container}>
+        <Text style={styles.title}>{restaurant?.name}</Text>
+        <Text style={styles.subtitle}>
+          <Icon name="location" style={styles.icon} /> {restaurant?.location}
+        </Text>
+        <Item style={styles.tagContainer}>
+          {restaurant?.tags.map((tag) => {
+            return (
+              <Button
+                key={tag.id}
+                style={{
+                  backgroundColor:
+                    tag.color !== "#ffffff" ? tag.color : "#000000",
+                  borderRadius: 30,
+                  marginRight: 2,
+                }}
+              >
+                <Text style={{ color: "#ffffff", fontSize: 18 }}>
+                  {tag.name}
+                </Text>
+              </Button>
+            );
+          })}
+        </Item>
+        <Container style={styles.buttonContainer}>
+          <Button
+            style={styles.reviewButton}
+            onPress={() =>
+              navigation.navigate("AddTab", {
+                screen: "AddReview",
+                params: {
+                  id: restaurant?.id,
+                  name: restaurant?.name,
+                  location: restaurant?.location,
+                  tags: tagIds,
+                },
+              })
+            }
+          >
+            <Icon name="star" style={styles.buttonIcon} />
+            <Text>Review</Text>
+          </Button>
+          <Button
+            dark
+            style={styles.button}
+            onPress={() => setEditModalVisible(true)}
+          >
+            <Text>Edit</Text>
+          </Button>
+          <MyModal
+            visible={editModalVisible}
+            setVisible={setEditModalVisible}
+            title="Edit"
+            content={editModalContent}
+          />
+          <Button dark onPress={onDeleteRestaurantClick}>
+            <Icon name="trash" style={styles.buttonIcon} />
+            <Text>Delete</Text>
+          </Button>
+        </Container>
       </Container>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 10, paddingRight: 20 },
+  container: { padding: 10, paddingRight: 20, flex: 6 },
   containerSpinner: {
     alignItems: "center",
     justifyContent: "center",

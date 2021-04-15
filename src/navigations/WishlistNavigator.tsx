@@ -16,7 +16,7 @@ const WishlistNavigator = () => (
     <WishlistStack.Screen
       name="WishlistDetails"
       component={WishlistDetailsScreen}
-      options={{ title: "Restaurant details" }}
+      options={{ headerShown: false }}
     />
   </WishlistStack.Navigator>
 );
