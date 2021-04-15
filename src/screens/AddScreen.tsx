@@ -26,7 +26,14 @@ export default function AddScreen({ navigation }: Props) {
         <Button
           full
           style={styles.button}
-          onPress={() => navigation.navigate("AddReview")}
+          onPress={() =>
+            navigation.navigate("AddReview", {
+              id: 0,
+              name: "",
+              location: "",
+              tags: [],
+            })
+          }
         >
           <Icon type="FontAwesome" name="star" style={styles.icon} />
           <Text style={styles.buttonText}>Add a review</Text>
