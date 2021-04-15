@@ -19,7 +19,8 @@ export const showToast = (
   Toast.show({
     text: message,
     duration,
-    position: "bottom",
+    position: "top",
+    style: { marginTop: 30 },
     textStyle: { textAlign: "center" },
     buttonText,
     type,
