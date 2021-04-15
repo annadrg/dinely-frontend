@@ -104,7 +104,7 @@ export default function ReviewsScreen({ navigation }: Props) {
         selectedItems={selectedTags}
         setSelectedItems={setSelectedTags}
       />
-      <Text style={styles.label}>Location</Text>
+      <Text style={styles.label}>City</Text>
       <SelectMultiple
         items={locations}
         selectedItems={selectedLocations}

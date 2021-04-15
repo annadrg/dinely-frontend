@@ -80,7 +80,7 @@ export default function WishlistDetailsScreen({ navigation, route }: Props) {
   // Handle edit restaurant
   const onEditRestaurantClick = () => {
     if (!name || !location) {
-      showToast("Please fill in name and location", 6000, "danger", "Okay");
+      showToast("Please fill in name and city", 6000, "danger", "Okay");
     } else {
       dispatch(
         updateRestaurant(restaurantId, {
@@ -120,7 +120,7 @@ export default function WishlistDetailsScreen({ navigation, route }: Props) {
           <Input value={name} onChange={onChangeInput(setName)} />
         </FormItem>
         <FormItem stackedLabel>
-          <Label style={styles.label}>Location</Label>
+          <Label style={styles.label}>City</Label>
           <Input value={location} onChange={onChangeInput(setLocation)} />
         </FormItem>
         <Text style={styles.multiSelectLabel}>Tags</Text>

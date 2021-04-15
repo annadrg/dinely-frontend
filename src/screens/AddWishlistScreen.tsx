@@ -60,7 +60,7 @@ export default function AddWishlistScreen({ navigation }: Props) {
   // Handle add restaurant
   const onSubmitClick = () => {
     if (!name || !location) {
-      showToast("Please fill in name and location", 6000, "danger", "Okay");
+      showToast("Please fill in name and city", 6000, "danger", "Okay");
     } else {
       dispatch(
         addRestaurant({ name, location, tags: tagsIds, isReviewed: false })
@@ -90,7 +90,7 @@ export default function AddWishlistScreen({ navigation }: Props) {
             <Input value={name} onChange={onChangeInput(setName)} />
           </FormItem>
           <FormItem stackedLabel>
-            <Label style={styles.label}>Location</Label>
+            <Label style={styles.label}>City</Label>
             <Input value={location} onChange={onChangeInput(setLocation)} />
           </FormItem>
           <Text style={styles.multiSelectLabel}>Tags</Text>

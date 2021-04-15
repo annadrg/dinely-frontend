@@ -76,7 +76,7 @@ export default function WishlistScreen({ navigation, route }: Props) {
         selectedItems={selectedTags}
         setSelectedItems={setSelectedTags}
       />
-      <Text style={styles.label}>Location</Text>
+      <Text style={styles.label}>City</Text>
       <SelectMultiple
         items={locations}
         selectedItems={selectedLocations}

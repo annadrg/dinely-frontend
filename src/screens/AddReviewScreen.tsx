@@ -78,12 +78,7 @@ export default function AddReviewScreen({ navigation, route }: Props) {
   // Handle add restaurant
   const onSubmitClick = () => {
     if (!name || !location || !rating) {
-      showToast(
-        "Please fill in name, location and rating",
-        6000,
-        "danger",
-        "Okay"
-      );
+      showToast("Please fill in name, city and rating", 6000, "danger", "Okay");
     } else {
       wishlistId
         ? dispatch(
@@ -170,7 +165,7 @@ export default function AddReviewScreen({ navigation, route }: Props) {
               <Input value={name} onChange={onChangeInput(setName)} />
             </FormItem>
             <FormItem stackedLabel>
-              <Label style={styles.label}>Location</Label>
+              <Label style={styles.label}>City</Label>
               <Input value={location} onChange={onChangeInput(setLocation)} />
             </FormItem>
           </Form>
