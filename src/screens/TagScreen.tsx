@@ -21,8 +21,15 @@ import { deleteTag, getTags, updateTag } from "../store/tag/actions";
 import { selectUserTags } from "../store/tag/selectors";
 import { Tag } from "../store/tag/types";
 import ColorPicker from "../components/ColorPicker";
+import MyHeader from "../components/MyHeader";
+import { NavigationProp } from "@react-navigation/core";
+import { AccountStackParamsList } from "../navigations/types";
 
-export default function TagScreen() {
+type Props = {
+  navigation: NavigationProp<AccountStackParamsList, "Tags">;
+};
+
+export default function TagScreen({ navigation }: Props) {
   const dispatch = useDispatch();
 
   // Get loading from state
@@ -122,63 +129,62 @@ export default function TagScreen() {
   }
   return (
     <Container>
-      <Text style={styles.title}>My tags</Text>
+      <MyHeader title="My tags" goBack={navigation.goBack} />
+      <Container style={styles.flexContainer}>
+        <AddTagModal
+          visible={addModalVisible}
+          setVisible={setAddModalVisible}
+        />
 
-      <AddTagModal visible={addModalVisible} setVisible={setAddModalVisible} />
+        <MyModal
+          visible={editModalVisible}
+          setVisible={setEditModalVisible}
+          title={selectedTag?.name}
+          content={editModalContent}
+        />
 
-      <MyModal
-        visible={editModalVisible}
-        setVisible={setEditModalVisible}
-        title={selectedTag?.name}
-        content={editModalContent}
-      />
-
-      <Content contentContainerStyle={styles.tagList}>
-        {tags.map((tag) => {
-          return (
-            <Button
-              key={tag.id}
-              style={{
-                borderRadius: 40,
-                margin: 2,
-                backgroundColor: tag.color,
-              }}
-              onPress={() => {
-                setSelectedTag(tag);
-                setUpdatedTagName(tag.name);
-                setUpdatedTagColor(tag.color || "");
-                setEditModalVisible(true);
-              }}
-            >
-              <Text>{tag.name}</Text>
-            </Button>
-          );
-        })}
-        <Button
-          dark
-          style={styles.tagButton}
-          onPress={() => setAddModalVisible(true)}
-        >
-          <Icon name="add" />
-        </Button>
-      </Content>
+        <Content contentContainerStyle={styles.tagList}>
+          {tags.map((tag) => {
+            return (
+              <Button
+                key={tag.id}
+                style={{
+                  borderRadius: 40,
+                  margin: 2,
+                  backgroundColor: tag.color,
+                }}
+                onPress={() => {
+                  setSelectedTag(tag);
+                  setUpdatedTagName(tag.name);
+                  setUpdatedTagColor(tag.color || "");
+                  setEditModalVisible(true);
+                }}
+              >
+                <Text>{tag.name}</Text>
+              </Button>
+            );
+          })}
+          <Button
+            dark
+            style={styles.tagButton}
+            onPress={() => setAddModalVisible(true)}
+          >
+            <Icon name="add" />
+          </Button>
+        </Content>
+      </Container>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
   container: { alignItems: "center", justifyContent: "center", flex: 1 },
+  flexContainer: { flex: 5 },
   tagList: {
     display: "flex",
     padding: 20,
     flexDirection: "row",
     flexWrap: "wrap",
-  },
-  title: {
-    fontWeight: "bold",
-    fontSize: 30,
-    textAlign: "center",
-    marginVertical: 10,
   },
   tagButton: { borderRadius: 40, margin: 2 },
   modalButton: {

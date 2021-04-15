@@ -60,7 +60,7 @@ export default function AddImages({
           }
         />
       ) : null}
-      <Button onPress={onDeleteImageClick} style={styles.deleteButton}>
+      <Button dark onPress={onDeleteImageClick} style={styles.deleteButton}>
         <Icon name="trash" style={styles.deleteIcon} />
         <Text>Delete image</Text>
       </Button>

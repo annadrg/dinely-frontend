@@ -17,12 +17,12 @@ const AddNavigator = () => (
     <AddStack.Screen
       name="AddReview"
       component={AddReviewScreen}
-      options={{ title: "Add review" }}
+      options={{ headerShown: false }}
     />
     <AddStack.Screen
       name="AddWishlist"
       component={AddWishlistScreen}
-      options={{ title: "Add wishlist item" }}
+      options={{ headerShown: false }}
     />
   </AddStack.Navigator>
 );

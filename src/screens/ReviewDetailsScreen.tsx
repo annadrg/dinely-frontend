@@ -34,6 +34,7 @@ import { selectSpecificRestaurant } from "../store/restaurant/selectors";
 import { selectUserTags } from "../store/tag/selectors";
 import ShowImages from "../components/ShowImages";
 import AddImages from "../components/AddImages";
+import MyHeader from "../components/MyHeader";
 
 type Props = {
   navigation: StackNavigationProp<ReviewsStackParamsList, "ReviewDetails">;
@@ -140,6 +141,7 @@ export default function ReviewDetailsScreen({ navigation, route }: Props) {
   const priceButton = (priceCat: number) => {
     return (
       <Button
+        dark
         style={
           priceCategory === priceCat
             ? styles.selectedPriceButton
@@ -173,6 +175,7 @@ export default function ReviewDetailsScreen({ navigation, route }: Props) {
           style={styles.date}
           mode="date"
           maximumDate={new Date()}
+          display="spinner"
           value={dateVisited}
           onChange={(e, selected) => {
             const date = selected || new Date();
@@ -226,12 +229,8 @@ export default function ReviewDetailsScreen({ navigation, route }: Props) {
           />
         </Form>
 
-        <Button
-          primary
-          onPress={onEditRestaurantClick}
-          style={styles.modalButton}
-        >
-          <Text>Edit</Text>
+        <Button dark onPress={onEditRestaurantClick} style={styles.modalButton}>
+          <Text>Save</Text>
         </Button>
       </Form>
     </Content>
@@ -247,84 +246,93 @@ export default function ReviewDetailsScreen({ navigation, route }: Props) {
   }
 
   return (
-    <Container style={styles.container}>
-      <Text style={styles.title}>{restaurant?.name}</Text>
-      <Text style={styles.subtitle}>
-        <Icon name="location" style={styles.icon} /> {restaurant?.location}
-      </Text>
-      <Item style={styles.tagContainer}>
-        {restaurant?.tags.map((tag) => {
-          return (
-            <Button
-              key={tag.id}
-              style={{
-                backgroundColor:
-                  tag.color !== "#ffffff" ? tag.color : "#000000",
-                borderRadius: 30,
-                marginRight: 2,
-              }}
-            >
-              <Text style={{ color: "#ffffff", fontSize: 18 }}>{tag.name}</Text>
-            </Button>
-          );
-        })}
-      </Item>
-      <Rating
-        readonly
-        startingValue={restaurant?.rating || 0}
-        style={styles.starRating}
-      />
-      <Container style={styles.textContainer}>
-        {restaurant?.dateVisited ? (
-          <>
-            <Text style={styles.mainLabel}>Visited on</Text>
-            <Text>{moment(restaurant?.dateVisited).format("DD-MM-YY")}</Text>
-          </>
-        ) : null}
-        {restaurant?.priceCategory ? (
-          <>
-            <Text style={styles.mainLabel}>Price category</Text>
-            <Text> {"€".repeat(restaurant?.priceCategory || 1)}</Text>
-          </>
-        ) : null}
-        {restaurant?.additionalInfo ? (
-          <>
-            <Text style={styles.mainLabel}>Additional info</Text>
-            <Text>{restaurant?.additionalInfo}</Text>
-          </>
-        ) : null}
-      </Container>
-      {restaurant?.image1 || restaurant?.image2 || restaurant?.image3 ? (
-        <>
-          <Text style={styles.label}>Pictures</Text>
-          <ShowImages
-            image1={restaurant?.image1 || ""}
-            image2={restaurant?.image2 || ""}
-            image3={restaurant?.image3 || ""}
-          />
-        </>
-      ) : null}
-      <Footer style={styles.footer}>
-        <Button style={styles.button} onPress={() => setEditModalVisible(true)}>
-          <Text>Edit</Text>
-        </Button>
-        <MyModal
-          visible={editModalVisible}
-          setVisible={setEditModalVisible}
-          title="Edit"
-          content={editModalContent}
+    <Container>
+      <MyHeader goBack={navigation.goBack} />
+      <Container style={styles.container}>
+        <Text style={styles.title}>{restaurant?.name}</Text>
+        <Text style={styles.subtitle}>
+          <Icon name="location" style={styles.icon} /> {restaurant?.location}
+        </Text>
+        <Item style={styles.tagContainer}>
+          {restaurant?.tags.map((tag) => {
+            return (
+              <Button
+                key={tag.id}
+                style={{
+                  backgroundColor:
+                    tag.color !== "#ffffff" ? tag.color : "#000000",
+                  borderRadius: 30,
+                  marginRight: 2,
+                }}
+              >
+                <Text style={{ color: "#ffffff", fontSize: 18 }}>
+                  {tag.name}
+                </Text>
+              </Button>
+            );
+          })}
+        </Item>
+        <Rating
+          readonly
+          startingValue={restaurant?.rating || 0}
+          style={styles.starRating}
         />
-        <Button onPress={onDeleteRestaurantClick}>
-          <Icon name="trash" style={styles.buttonIcon} />
-          <Text>Delete</Text>
-        </Button>
-      </Footer>
+        <Container style={styles.textContainer}>
+          {restaurant?.dateVisited ? (
+            <>
+              <Text style={styles.mainLabel}>Visited on</Text>
+              <Text>{moment(restaurant?.dateVisited).format("DD-MM-YY")}</Text>
+            </>
+          ) : null}
+          {restaurant?.priceCategory ? (
+            <>
+              <Text style={styles.mainLabel}>Price category</Text>
+              <Text> {"€".repeat(restaurant?.priceCategory || 1)}</Text>
+            </>
+          ) : null}
+          {restaurant?.additionalInfo ? (
+            <>
+              <Text style={styles.mainLabel}>Additional info</Text>
+              <Text>{restaurant?.additionalInfo}</Text>
+            </>
+          ) : null}
+        </Container>
+        {restaurant?.image1 || restaurant?.image2 || restaurant?.image3 ? (
+          <>
+            <Text style={styles.label}>Pictures</Text>
+            <ShowImages
+              image1={restaurant?.image1 || ""}
+              image2={restaurant?.image2 || ""}
+              image3={restaurant?.image3 || ""}
+            />
+          </>
+        ) : null}
+        <Footer style={styles.footer}>
+          <Button
+            dark
+            style={styles.button}
+            onPress={() => setEditModalVisible(true)}
+          >
+            <Text>Edit</Text>
+          </Button>
+          <MyModal
+            visible={editModalVisible}
+            setVisible={setEditModalVisible}
+            title="Edit"
+            content={editModalContent}
+          />
+          <Button dark onPress={onDeleteRestaurantClick}>
+            <Icon name="trash" style={styles.buttonIcon} />
+            <Text>Delete</Text>
+          </Button>
+        </Footer>
+      </Container>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 10, paddingRight: 20, paddingBottom: 0 },
+  container: { padding: 10, paddingRight: 20, paddingBottom: 0, flex: 6 },
   containerSpinner: {
     alignItems: "center",
     justifyContent: "center",

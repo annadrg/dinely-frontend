@@ -9,6 +9,7 @@ import {
   Item,
   Input,
   Icon,
+  Content,
 } from "native-base";
 import React, { useState } from "react";
 import { Pressable, StyleSheet } from "react-native";
@@ -24,6 +25,7 @@ import {
   selectRestaurantLocations,
 } from "../store/restaurant/selectors";
 import { selectUserTags } from "../store/tag/selectors";
+import MyHeader from "../components/MyHeader";
 
 type Props = {
   navigation: StackNavigationProp<WishlistStackParamsList, "Wishlist">;
@@ -68,11 +70,13 @@ export default function WishlistScreen({ navigation, route }: Props) {
   // Filter modal content
   const filterModalContent = (
     <Container style={styles.modalContainer}>
+      <Text style={styles.label}>Tags</Text>
       <SelectMultiple
         items={userTagsWithString}
         selectedItems={selectedTags}
         setSelectedItems={setSelectedTags}
       />
+      <Text style={styles.label}>Location</Text>
       <SelectMultiple
         items={locations}
         selectedItems={selectedLocations}
@@ -80,6 +84,7 @@ export default function WishlistScreen({ navigation, route }: Props) {
       />
       <Button
         small
+        dark
         style={styles.modalButton}
         onPress={() => {
           setSelectedTags([]);
@@ -101,63 +106,68 @@ export default function WishlistScreen({ navigation, route }: Props) {
   }
 
   return (
-    <Container style={styles.container}>
-      <Text style={styles.title}>Wishlist</Text>
-      <Button
-        small
-        style={styles.filterButton}
-        onPress={() => setFilterModalVisible(true)}
-      >
-        <Text>Filter</Text>
-      </Button>
-      <Header searchBar rounded style={styles.header}>
-        <Item style={styles.item}>
-          <Icon name="ios-search" />
-          <Input
-            value={search}
-            onChange={onChangeInput(setSearch)}
-            placeholder="Search"
-          />
-        </Item>
-      </Header>
-      {filteredRestaurants.map((restaurant) => {
-        return (
-          <Pressable
-            key={restaurant.id}
-            onPress={() =>
-              navigation.navigate("WishlistDetails", {
-                restaurantId: restaurant.id,
-              })
-            }
-          >
-            <RestaurantCard
-              isReviewed={false}
-              name={restaurant.name}
-              location={restaurant.location}
-              tags={restaurant.tags}
+    <Container>
+      <MyHeader title="My wishlist" />
+      <Container style={styles.container}>
+        <Button
+          small
+          dark
+          style={styles.filterButton}
+          onPress={() => setFilterModalVisible(true)}
+        >
+          <Text>Filter</Text>
+        </Button>
+        <Header searchBar rounded style={styles.header}>
+          <Item style={styles.item}>
+            <Icon name="ios-search" />
+            <Input
+              value={search}
+              onChange={onChangeInput(setSearch)}
+              placeholder="Search"
             />
-          </Pressable>
-        );
-      })}
-      <MyModal
-        visible={filterModalVisible}
-        setVisible={setFilterModalVisible}
-        title="Select filters"
-        content={filterModalContent}
-      />
+          </Item>
+        </Header>
+        <Content>
+          {filteredRestaurants.length ? (
+            filteredRestaurants.map((restaurant) => {
+              return (
+                <Pressable
+                  key={restaurant.id}
+                  onPress={() =>
+                    navigation.navigate("WishlistDetails", {
+                      restaurantId: restaurant.id,
+                    })
+                  }
+                >
+                  <RestaurantCard
+                    isReviewed={false}
+                    name={restaurant.name}
+                    location={restaurant.location}
+                    tags={restaurant.tags}
+                  />
+                </Pressable>
+              );
+            })
+          ) : (
+            <Container style={styles.textContainer}>
+              <Text>No restaurants</Text>
+            </Container>
+          )}
+        </Content>
+        <MyModal
+          visible={filterModalVisible}
+          setVisible={setFilterModalVisible}
+          title="Select filters"
+          content={filterModalContent}
+        />
+      </Container>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 10, paddingTop: 60 },
+  container: { paddingHorizontal: 10, paddingTop: 10, flex: 5 },
   containerSpinner: { alignItems: "center", justifyContent: "center", flex: 1 },
-  title: {
-    fontWeight: "bold",
-    fontSize: 30,
-    textAlign: "center",
-    marginVertical: 10,
-  },
   filterButton: { marginLeft: 5 },
   modalContainer: { width: "100%", paddingRight: 15 },
   modalButton: { marginLeft: 15, marginTop: 20 },
@@ -169,4 +179,10 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   item: { backgroundColor: "#e0e0e0" },
+  label: { marginLeft: 15, marginTop: 20, color: "#727272", fontSize: 15 },
+  textContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 500,
+  },
 });

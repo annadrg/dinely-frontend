@@ -13,7 +13,11 @@ const AccountNavigator = () => (
       component={AccountScreen}
       options={{ headerShown: false }}
     />
-    <AccountStack.Screen name="Tags" component={TagScreen} />
+    <AccountStack.Screen
+      name="Tags"
+      component={TagScreen}
+      options={{ headerShown: false }}
+    />
   </AccountStack.Navigator>
 );
 
