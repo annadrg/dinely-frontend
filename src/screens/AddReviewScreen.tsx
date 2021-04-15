@@ -262,6 +262,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   priceButton: { marginRight: 2 },
-  selectedPriceButton: { backgroundColor: "tomato", marginRight: 2 },
+  selectedPriceButton: { backgroundColor: "#c33d2e", marginRight: 2 },
   textarea: { marginLeft: 15, marginTop: 20 },
 });
