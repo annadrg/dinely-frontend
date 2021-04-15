@@ -47,7 +47,7 @@ export const signUp = (
         lastName,
       });
       dispatch(appDoneLoading());
-      showToast("Succesfully signed up", 2000, "success", undefined);
+      showToast("Succesfully signed up", 2500, "success", undefined);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -76,7 +76,7 @@ export const logIn = (email: string, password: string): AppThunk => {
         dispatch(getTags());
         dispatch(getRestaurants());
         dispatch(appDoneLoading());
-        showToast("Welcome back!", 2000, "success", undefined);
+        showToast("Welcome back!", 2500, "success", undefined);
       } catch (error) {
         dispatch(appDoneLoading());
         showToast(error.message, 6000, "danger", "Okay");
@@ -166,7 +166,7 @@ export const changeUserDetails = (
 
       dispatch(updateUserDetails(response.data));
       dispatch(appDoneLoading());
-      showToast("Details succesfully changed", 2000, "success", undefined);
+      showToast("Details succesfully changed", 2500, "success", undefined);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -198,7 +198,7 @@ export const changePassword = (
         }
       );
       dispatch(appDoneLoading());
-      showToast("Password succesfully changed", 2000, "success", undefined);
+      showToast("Password succesfully changed", 2500, "success", undefined);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);

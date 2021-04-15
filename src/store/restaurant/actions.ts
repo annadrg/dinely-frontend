@@ -58,7 +58,7 @@ export const addRestaurant = (restaurant: NewRestaurant): AppThunk => async (
     dispatch(appDoneLoading());
     const newRestaurant = response.data;
     dispatch(addOneRestaurant(newRestaurant));
-    showToast("Restaurant succesfully added", 2000, "success", undefined);
+    showToast("Restaurant succesfully added", 2500, "success", undefined);
   } catch (error) {
     if (error.response) {
       console.log(error.response.message);
@@ -92,7 +92,7 @@ export const updateRestaurant = (
     );
     const updatedRestaurant = response.data;
     dispatch(updateOneRestaurant(updatedRestaurant));
-    showToast("Restaurant succesfully updated", 2000, "success", undefined);
+    showToast("Restaurant succesfully updated", 2500, "success", undefined);
     dispatch(appDoneLoading());
   } catch (error) {
     if (error.response) {

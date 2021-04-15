@@ -5,6 +5,7 @@ import { appLoading, appDoneLoading } from "../appState/actions";
 import { Tag, NewTag } from "./types";
 import { selectToken } from "../user/selectors";
 import { getRestaurants } from "../restaurant/actions";
+import { showToast } from "../../functions";
 
 export const tagsFetched = (tags: Tag[]) => {
   return {
@@ -57,6 +58,7 @@ export const addTag = (tag: NewTag): AppThunk => async (dispatch, getState) => {
     dispatch(appDoneLoading());
     const newTag = response.data;
     dispatch(addOneTag(newTag));
+    showToast("Tag succesfully added", 2500, "success", undefined);
   } catch (error) {
     if (error.response) {
       console.log(error.response.message);
