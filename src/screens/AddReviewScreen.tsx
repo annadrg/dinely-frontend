@@ -34,10 +34,16 @@ export default function AddReviewScreen({ navigation, route }: Props) {
   const dispatch = useDispatch();
 
   // Get parameters from route
-  const wishlistId = route.params?.id;
+  const routeId = route.params?.id;
+  const [wishlistId, setWishlistId] = useState(routeId);
   const wishlistName = route.params?.name;
   const wishlistLocation = route.params?.location;
   const wishlistTags = route.params?.tags;
+
+  // Update wishlist id when route changes
+  useEffect(() => {
+    setWishlistId(routeId);
+  }, [routeId]);
 
   // Ignore virtualized list warning
   useEffect(() => {
@@ -111,6 +117,7 @@ export default function AddReviewScreen({ navigation, route }: Props) {
               isReviewed: true,
             })
           );
+      setWishlistId(0);
       setName("");
       setLocation("");
       setRating(0);
@@ -156,7 +163,11 @@ export default function AddReviewScreen({ navigation, route }: Props) {
 
   return (
     <Container>
-      <MyHeader title="Add review" goBack={navigation.goBack} />
+      <MyHeader
+        title="Add review"
+        goBack={navigation.navigate}
+        navigationRoute="Add"
+      />
       <Container style={styles.flexContainer}>
         <Content style={styles.container}>
           <Form>
