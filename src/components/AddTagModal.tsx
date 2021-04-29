@@ -46,7 +46,7 @@ export default function AddTagModal({ visible, setVisible }: Props) {
 
       <ColorPicker color={newTagColor} setColor={setNewTagColor} />
 
-      <Button onPress={onAddTagClick} style={styles.modalButton}>
+      <Button dark onPress={onAddTagClick} style={styles.modalButton}>
         <Text>Add tag</Text>
       </Button>
     </Form>
