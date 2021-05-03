@@ -6,9 +6,10 @@ import { ImageBackground, StyleSheet, StatusBar } from "react-native";
 type Props = {
   title?: string;
   goBack?: Function;
+  navigationRoute?: string;
 };
 
-export default function MyHeader({ title, goBack }: Props) {
+export default function MyHeader({ title, goBack, navigationRoute }: Props) {
   return (
     <Container style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" />
@@ -18,7 +19,13 @@ export default function MyHeader({ title, goBack }: Props) {
       >
         {goBack ? (
           <Button
-            onPress={() => (goBack ? goBack() : null)}
+            onPress={() =>
+              goBack
+                ? navigationRoute
+                  ? goBack(navigationRoute)
+                  : goBack()
+                : null
+            }
             style={styles.button}
           >
             <Icon name="arrow-back" style={styles.icon} />

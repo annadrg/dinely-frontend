@@ -109,10 +109,10 @@ export default function TagScreen({ navigation }: Props) {
 
       <ColorPicker color={updatedTagColor} setColor={setUpdatedTagColor} />
 
-      <Button onPress={onEditTagClick} style={styles.modalButton}>
+      <Button dark onPress={onEditTagClick} style={styles.modalButton}>
         <Text>Edit tag</Text>
       </Button>
-      <Button onPress={onDeleteTagClick} style={styles.deleteButton}>
+      <Button dark onPress={onDeleteTagClick} style={styles.deleteButton}>
         <Icon name="trash" style={styles.deleteIcon} />
         <Text>Delete tag</Text>
       </Button>
